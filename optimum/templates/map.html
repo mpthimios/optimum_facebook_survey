@@ -1,0 +1,148 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="right-panel" style="height:500px;float: right;width:50%;overflow: auto;">
+    <div>
+        <h6><b> Duration of your route:</b></h6>
+        <input type="text" id="duration" class="form-control" style="width:30%;">
+    </div>
+    <div style="float:right; width:20%">
+       <p><b>CO2 emissions</b></p>
+        <h4 style="margin-top:25px; margin-bottom:15px;margin-left:25px;"><p id="first"></p> </h4>
+        <h4 style="margin-top:25px; margin-bottom:14px;margin-left:25px;"><p id="second"> </h4>
+        <h4 style="margin-top:25px; margin-bottom:14px;margin-left:25px;"><p id="third"> </h4>
+        <h4 style="margin-top:25px; margin-bottom:14px;margin-left:25px;"><p id="forth"> </h4>
+
+    </div>
+</div>
+
+<div id="map" style="width: 50%; height: 500px;"></div>
+
+    <script src="https://maps.googleapis.com/maps/api/js?language=en"></script>
+    <script src="static/js/loadgpx.js" type="text/javascript"></script>
+
+
+    <script>
+        function loadGPXFileIntoGoogleMap(map, filename, callback, m) {
+                $.ajax({url: filename,
+                    dataType: "xml",
+                    success: function(data) {
+                      var parser = new GPXParser(data, map);
+                      parser.setTrackColour("#ff0000");     // Set the track line colour
+                      parser.setTrackWidth(5);          // Set the track line width
+                      parser.setMinTrackPointDelta(0.001);      // Set the minimum distance between track points
+                      parser.centerAndZoom(data);
+                      parser.addTrackpointsToMap();         // Add the trackpoints
+                      parser.addWaypointsToMap();           // Add the waypoints
+                      var points = parser.getorigin(data);
+                      var mode = parser.get_mode(data);
+                      if (mode == "οδήγηση"){
+                            mode = 'DRIVING'
+                            }
+                      console.log(mode)
+                      callback(points, mode)
+
+                    }
+                });
+            }
+            $(document).ready(function() {
+                var mapOptions = {
+                  zoom: 8,
+                  mapTypeId: google.maps.MapTypeId.ROADMAP
+                };
+                var directionsDisplay = new google.maps.DirectionsRenderer;
+                var directionsService = new google.maps.DirectionsService;
+                var map = new google.maps.Map(document.getElementById("map"),mapOptions);
+                loadGPXFileIntoGoogleMap(map, "/", get_points);
+
+                function get_points(points, mode) {
+
+                    directionsDisplay.setMap(map);
+                    directionsDisplay.setPanel(document.getElementById('right-panel'));
+                    console.log(mode)
+                    calculateAndDisplayRoute(directionsService, directionsDisplay, points, mode);
+                }
+
+                function calculateAndDisplayRoute(directionsService, directionsDisplay, points, mode) {
+
+                      var start = new google.maps.LatLng(points[0],points[1]);
+                      var end = new google.maps.LatLng(points[2], points[3]);
+                      console.log(points[4])
+                      console.log(points[3])
+                      console.log(points)
+                      $('#duration').val(points[4]);
+
+                      if (mode == 'DRIVING'){
+                        var travel = google.maps.TravelMode.TRANSIT
+                      }
+                      else{
+                        var travel = google.maps.TravelMode.DRIVING
+                      }
+
+                      directionsService.route({
+                        origin: start,
+                        destination: end,
+                        travelMode: travel,
+                        provideRouteAlternatives: true,
+                      }, function(response, status) {
+                        if (status === google.maps.DirectionsStatus.OK) {
+                          console.log(response)
+                          //get distance and travel_mode and calculate CO2
+                          calculate_emissions(response);
+                          directionsDisplay.setDirections(response);
+                        } else {
+                          window.alert('Directions request failed due to ' + status);
+                        }
+                      });
+                }
+
+                 function calculate_emissions(response) {
+                    for (var i in response.routes) {
+                        emissions=0
+                        for (var j in  response.routes[i].legs[0].steps){
+                            var distance = response.routes[i].legs[0].steps[j].distance.value
+                            var travel_mode = response.routes[i].legs[0].steps[j].travel_mode
+                            if (travel_mode =="TRANSIT"){
+                                travel_mode =  response.routes[i].legs[0].steps[j].transit.line.vehicle.type
+                            }
+                            emissions = emissions + calculate(distance, travel_mode)
+                        }
+                        em=[]
+                        em[i]= emissions
+                        $('#first').text(em[0]);
+                        $('#second').text(em[1]);
+                        $('#third').text(em[2]);
+                        $('#forth').text(em[3]);
+                    }
+
+                function calculate(distance, travel_mode){
+
+                    if (travel_mode == "WALKING"){
+                        var emissions = 0;
+                    }
+                    if (travel_mode == "BIKE"){
+                        var emissions = 0;
+                    }
+                    if (travel_mode == "SUBWAY"){
+                        var emissions = (distance/1000)*20;
+                    }
+                    if (travel_mode == "HEAVY_RAIL"){
+                        var emissions = (distance/1000)*50;
+                    }
+                    if (travel_mode == "BUS"){
+                        var emissions = (distance/1000)*25.5;
+                    }
+                    return emissions
+
+                }
+
+                 }
+
+
+              });
+    </script>
+
+
+
+
+{% endblock%}

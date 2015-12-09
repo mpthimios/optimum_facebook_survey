@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>Optimum</title>
+    <script src="http://code.jquery.com/jquery-1.10.2.js"></script>
+    <script src="/static/js/site.min.js"></script>
+
+    <link rel="stylesheet" href="/static/css/bootstrap.min.css" media="all">
+    <link rel="stylesheet" href="/static/css/site.min.css" media="all">
+    <link rel="stylesheet" href="/static/css/site.css">
+    <!-- <link rel="stylesheet" href="/static/css/style.css">  -->
+
+    <script src="/static/js/jquery.fs.selecter.js"></script>
+    <link href="/static/css/jquery.fs.selecter.css" rel="stylesheet">
+    <!-- Javascript function for searching  -->
+    <script src="/static/js/search.js"></script>
+    <!-- Momento js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.10.6/moment.min.js"></script>
+
+    {% block header %}
+    {% endblock %}
+</head>
+<body>
+     {% include "util/menu.html" %}
+
+        <div class="wrapper">
+		    {% block content %}
+		    {% endblock %}
+
+
+        </div>
+
+</body>
+</html>
