@@ -290,3 +290,39 @@ GPXParser.prototype.addWaypointsToMap = function() {
         this.createMarker(waypoints[i]);
     }
 }
+
+
+GPXParser.prototype.CalculateDistance = function(trackSegment){
+
+   var trackpoints = trackSegment.getElementsByTagName("trkpt");
+   if(trackpoints.length == 0) {
+        return;
+    }
+    var pointarray = [];
+
+    total_distance=0
+    for(var i = 0; i < trackpoints.length-1; i++) {
+        var lon1 = trackpoints[i].getAttribute("lon");
+        var lat1 = trackpoints[i].getAttribute("lat");
+        var lon2 = trackpoints[i+1].getAttribute("lon");
+        var lat2 = trackpoints[i+1].getAttribute("lat");
+        distance = calculate_point_distance(lat1, lon1, lat2, lon2)
+        total_distance = total_distance + distance
+        }
+    console.log(total_distance)
+    return total_distance ;
+
+}
+
+// return the distance between (lat1,lon1) and (lat2,lon2) in meter.
+function calculate_point_distance(lat1, lon1, lat2, lon2) {
+    var radius = 6378137.0 ; // earth radius in meter
+    var DE2RA = 0.01745329252; // degre to radian conversion
+    if (lat1 == lat2 && lon1 == lon2) return 0;
+    lat1 *= DE2RA;
+    lon1 *= DE2RA;
+    lat2 *= DE2RA;
+    lon2 *= DE2RA;
+    var d = Math.sin(lat1) * Math.sin(lat2) + Math.cos(lat1) * Math.cos(lat2) * Math.cos(lon1 - lon2);
+    return (radius * Math.acos(d));
+};

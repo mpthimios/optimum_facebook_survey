@@ -2,9 +2,13 @@
 
 {% block content %}
 <div id="right-panel" style="height:500px;float: right;width:50%;overflow: auto;">
-    <div>
+    <div style="float:left;left:100%;width:50%;">
         <h6><b> Duration of your route:</b></h6>
         <input type="text" id="duration" class="form-control" style="width:30%;">
+    </div>
+    <div style="left:10%;">
+        <h6><b> C02 emissions of your route:</b></h6>
+        <input type="text" id="emissions" class="form-control" style="width:30%;">
     </div>
     <div style="float:right; width:20%">
        <p><b>CO2 emissions</b></p>
@@ -23,7 +27,7 @@
 
 
     <script>
-        function loadGPXFileIntoGoogleMap(map, filename, callback, m) {
+        function loadGPXFileIntoGoogleMap(map, filename, callback, m, distance) {
                 $.ajax({url: filename,
                     dataType: "xml",
                     success: function(data) {
@@ -40,7 +44,8 @@
                             mode = 'DRIVING'
                             }
                       console.log(mode)
-                      callback(points, mode)
+                      var track_distance = parser.CalculateDistance(data);
+                      callback(points, mode, track_distance)
 
                     }
                 });
@@ -55,15 +60,15 @@
                 var map = new google.maps.Map(document.getElementById("map"),mapOptions);
                 loadGPXFileIntoGoogleMap(map, "/", get_points);
 
-                function get_points(points, mode) {
+                function get_points(points, mode, distance) {
 
                     directionsDisplay.setMap(map);
                     directionsDisplay.setPanel(document.getElementById('right-panel'));
                     console.log(mode)
-                    calculateAndDisplayRoute(directionsService, directionsDisplay, points, mode);
+                    calculateAndDisplayRoute(directionsService, directionsDisplay, points, mode, distance);
                 }
 
-                function calculateAndDisplayRoute(directionsService, directionsDisplay, points, mode) {
+                function calculateAndDisplayRoute(directionsService, directionsDisplay, points, mode, distance) {
 
                       var start = new google.maps.LatLng(points[0],points[1]);
                       var end = new google.maps.LatLng(points[2], points[3]);
@@ -71,6 +76,13 @@
                       console.log(points[3])
                       console.log(points)
                       $('#duration').val(points[4]);
+
+                      //calculate C02 emissions for track if mode is driving
+                      if( mode== 'DRIVING'){
+                        track_emissions = (distance/1000)*169;
+                         $('#emissions').val(track_emissions);
+                      }
+
 
                       if (mode == 'DRIVING'){
                         var travel = google.maps.TravelMode.TRANSIT
@@ -83,11 +95,14 @@
                         origin: start,
                         destination: end,
                         travelMode: travel,
+                        transitOptions: {
+                            departureTime: new Date("August 08, 2015 11:00"),
+                            },
                         provideRouteAlternatives: true,
                       }, function(response, status) {
                         if (status === google.maps.DirectionsStatus.OK) {
                           console.log(response)
-                          //get distance and travel_mode and calculate CO2
+                          //get distance and travel_mode and calculate CO2 for suggested routes
                           calculate_emissions(response);
                           directionsDisplay.setDirections(response);
                         } else {
@@ -116,7 +131,7 @@
                     }
 
                 function calculate(distance, travel_mode){
-
+                    var emissions = 0;
                     if (travel_mode == "WALKING"){
                         var emissions = 0;
                     }
@@ -131,6 +146,9 @@
                     }
                     if (travel_mode == "BUS"){
                         var emissions = (distance/1000)*25.5;
+                    }
+                    if (travel_mode == "DRIVING"){
+                        var emissions = (distance/1000)*110;
                     }
                     return emissions
 
