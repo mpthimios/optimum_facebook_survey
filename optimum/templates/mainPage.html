@@ -1,6 +1,16 @@
 {% extends "base.html" %}
 
 {% block content %}
- <h1>optimum welcome page</h1>
+ <h1>Welcome!</h1>
+{% if not user.is_authenticated %}
+<div class="jumbotron" style="width:25%;float:left;padding:10px;margin:5px;">
+  <h1>Already have account?</h1>
+  <p><a class="btn btn-success btn-large btn-block"  href="/accounts/login">Login</a></p>
+</div>
+<div class="jumbotron" style="width:25%;float:left;padding:10px;margin:5px;">
+  <h1>Create new account</h1>
+  <p><a class="btn btn-success btn-large btn-block"  href="/accounts/signup">Create account</a></p>
+</div>
+{% endif  %}
 
 {% endblock %}

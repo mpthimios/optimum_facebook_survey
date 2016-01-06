@@ -38,6 +38,9 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'optimum',
+    'social_auth',
+    'allauth',
+    'allauth.account',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -48,6 +51,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'social_auth.middleware.SocialAuthExceptionMiddleware',
 )
 
 ROOT_URLCONF = 'optimum.urls'
@@ -78,7 +82,7 @@ USE_L10N = True
 
 USE_TZ = True
 
-
+SITE_ID = 1
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/1.7/howto/static-files/
 
@@ -94,6 +98,71 @@ STATICFILES_DIRS = (
 
 LOGIN_REDIRECT_URL = '/'
 
+LOGIN_URL = '/login-form/'
+SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
+#LOGIN_ERROR_URL    = '/login-error/'
+
 TEMPLATE_DIRS = (
   'jaqpot_ui/templates',
 )
+
+AUTHENTICATION_BACKENDS = (
+    'social_auth.backends.twitter.TwitterBackend',
+    'social_auth.backends.facebook.FacebookBackend',
+    'social_auth.backends.google.GoogleOAuthBackend',
+    'social_auth.backends.google.GoogleOAuth2Backend',
+    'social_auth.backends.google.GoogleBackend',
+    'social_auth.backends.yahoo.YahooBackend',
+    'social_auth.backends.browserid.BrowserIDBackend',
+    'social_auth.backends.contrib.linkedin.LinkedinBackend',
+    'social_auth.backends.contrib.disqus.DisqusBackend',
+    'social_auth.backends.contrib.livejournal.LiveJournalBackend',
+    'social_auth.backends.contrib.orkut.OrkutBackend',
+    'social_auth.backends.contrib.foursquare.FoursquareBackend',
+    'social_auth.backends.contrib.github.GithubBackend',
+    'social_auth.backends.contrib.vk.VKOAuth2Backend',
+    'social_auth.backends.contrib.live.LiveBackend',
+    'social_auth.backends.contrib.skyrock.SkyrockBackend',
+    'social_auth.backends.contrib.yahoo.YahooOAuthBackend',
+    'social_auth.backends.contrib.readability.ReadabilityBackend',
+    'social_auth.backends.contrib.fedora.FedoraBackend',
+    'social_auth.backends.OpenIDBackend',
+    'django.contrib.auth.backends.ModelBackend',
+)
+
+TWITTER_CONSUMER_KEY         = 'm69DRR5qxEl8DDYzmNkOgI3dX'
+TWITTER_CONSUMER_SECRET      = 'gHtJr6z7qlJxBI6XqWJ8NTi9kAQxpFJ0TKSlBSR0vnSMGSOYY4'
+FACEBOOK_APP_ID              = ''
+FACEBOOK_API_SECRET          = ''
+LINKEDIN_CONSUMER_KEY        = ''
+LINKEDIN_CONSUMER_SECRET     = ''
+ORKUT_CONSUMER_KEY           = ''
+ORKUT_CONSUMER_SECRET        = ''
+GOOGLE_CONSUMER_KEY          = 'anonymous'
+GOOGLE_CONSUMER_SECRET       = 'anonymous'
+GOOGLE_OAUTH2_CLIENT_ID      = '627494330377-i453drmks3pp1hr78m3hb7bct0etpvja.apps.googleusercontent.com'
+GOOGLE_OAUTH2_CLIENT_SECRET  = '4LqzCRH2x-m-kHaoiTqTEVE9'
+FOURSQUARE_CONSUMER_KEY      = ''
+FOURSQUARE_CONSUMER_SECRET   = ''
+VK_APP_ID                    = ''
+VK_API_SECRET                = ''
+LIVE_CLIENT_ID               = ''
+LIVE_CLIENT_SECRET           = ''
+SKYROCK_CONSUMER_KEY         = ''
+SKYROCK_CONSUMER_SECRET      = ''
+YAHOO_CONSUMER_KEY           = ''
+YAHOO_CONSUMER_SECRET        = ''
+READABILITY_CONSUMER_SECRET  = ''
+
+
+SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
+
+'''SOCIAL_AUTH_PIPELINE = (
+    'social.pipeline.social_auth.social_details',
+    'social.pipeline.social_auth.social_uid',
+    'social.pipeline.social_auth.social_user',
+    'social.pipeline.user.get_username',
+    'social.pipeline.user.create_user',
+    'myapp.pipeline.set_google_credentials'
+    # more pipelines
+)'''

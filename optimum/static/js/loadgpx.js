@@ -159,8 +159,25 @@ GPXParser.prototype.getorigin = function(trackSegment){
     var ms = moment(end_time,"YYYY-MM-DDTHH:mm:ss.SSSZ").diff(moment(start_time,"YYYY-MM-DDTHH:mm:ss.SSSZ"));
     var d = moment.duration(ms);
     var duration = Math.floor(d.asHours()) + moment.utc(ms).format(":mm:ss");
-    return [firstlat, firstlon, lastlat, lastlon, duration] ;
+    var date = new Date(start_time);
+    var dayOfWeek = date.getDay();
+    var new_date = setDay(start_time,dayOfWeek)
+    console.log(new_date)
+    return [firstlat, firstlon, lastlat, lastlon, duration, new_date] ;
 
+}
+
+function setDay(date, dayOfWeek) {
+  var now = new Date();
+  date = new Date(date);
+  var h = date.getHours();
+  var m = date.getMinutes();
+  var s = date.getSeconds();
+  console.log(h)
+  now.setHours(h,m,s);
+  console.log(now)
+  now.setDate(now.getDate() + (dayOfWeek + 7 - now.getDay()) % 7);
+  return now;
 }
 
 GPXParser.prototype.addTrackSegmentToMap = function(trackSegment, colour,
