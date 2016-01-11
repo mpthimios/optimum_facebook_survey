@@ -12,6 +12,8 @@ urlpatterns = patterns('',
     url(r'^$', views.index, name='home'),
     url(r'', include('social_auth.urls')),
     url(r'^routes', views.history_routes),
+    url(r'^tracks', views.tracks),
+    url(r'^path', views.path),
 
     # Authentication module
     url(r'^accounts/', include('allauth.urls')),
