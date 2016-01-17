@@ -98,7 +98,7 @@ STATICFILES_DIRS = (
 
 LOGIN_REDIRECT_URL = '/'
 
-LOGIN_URL = '/login-form/'
+LOGIN_URL = '/accounts/login/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 #LOGIN_ERROR_URL    = '/login-error/'
 

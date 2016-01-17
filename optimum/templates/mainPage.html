@@ -2,6 +2,11 @@
 
 {% block content %}
  <h1>Welcome!</h1>
+<div class="jumbotron" style="width:25%;padding:10px;margin:5px;">
+  <h1>Select a route </h1>
+  <img src="/static/img/map2.jpg" style="width:95%;margin:10px;">
+  <p><a class="btn btn-success btn-large btn-block"  href="/tracks">Tracks</a></p>
+</div>
 {% if not user.is_authenticated %}
 <div class="jumbotron" style="width:25%;float:left;padding:10px;margin:5px;">
   <h1>Already have account?</h1>
