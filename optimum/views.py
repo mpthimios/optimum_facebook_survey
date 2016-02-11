@@ -14,7 +14,7 @@ from optimum.twitter import get_tweets
 from optimum.personality import get_profil
 import json
 from pprint import pprint
-from social_auth.models import UserSocialAuth
+from social_auth.db.django_models import UserSocialAuth
 from apiclient.discovery import build
 import oauth2client
 from oauth2client import client

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="jumbotron" style="width:30%;left:35%;position:absolute;background-color:#ecf0f1; margin:10px; padding:10px;">
+
+    <b>Create user account:</b><br><br>
+    <form method="post" action=".">  {% csrf_token %}
+        {% if form.errors %}
+            <div class="alert alert-dismissible alert-danger">
+                <p>{{form.errors}}</p>
+            </div>
+        {% endif %}
+
+        <fieldset>
+            <label class="control-label">Username <input type="text" name="username" class="form-control" style="height: 25px;"/></label><br />
+            <label>Password <input type="password" name="password1" class="form-control" style="height: 25px;"/></label><br />
+            <label>Repeat password <input type="password" name="password2" class="form-control" style="height: 25px;"/></label><br />
+        </fieldset>
+
+        <input type="submit" value="Create user" class="btn btn-success btn-lg btn-block">
+    </form>
+ </div>
+
+{% endblock %}

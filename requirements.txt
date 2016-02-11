@@ -1,7 +1,7 @@
 django==1.7
 google-api-python-client
 tweepy
-oauth2client
 django-social-auth
+oauth2client
 django-allauth
 urllib3
