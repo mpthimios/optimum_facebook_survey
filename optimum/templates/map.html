@@ -14,26 +14,88 @@
         <h6><b> Cost:</b></h6>
         <input type="text" id="cost" class="form-control" style="width:20%;">
     </div>
-    <div style="float:right; width:20%">
-       <p><b>CO2 emissions</b></p>
-        <h4 style="margin-top:25px; margin-bottom:15px;margin-left:25px;"><p id="em0"></p> </h4>
-        <h4 style="margin-top:25px; margin-bottom:14px;margin-left:25px;"><p id="em1"></p> </h4>
-        <h4 style="margin-top:25px; margin-bottom:14px;margin-left:25px;"><p id="em2"></p> </h4>
-        <h4 style="margin-top:25px; margin-bottom:14px;margin-left:25px;"><p id="em3"></p> </h4>
 
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#home" data-toggle="tab" aria-expanded="true" style="color:blue;">Transit</a></li>
+      <li class=""><a href="#profile" data-toggle="tab" aria-expanded="false" style="color:green;">Driving</a></li>
+    </ul>
+    <div id="myTabContent" class="tab-content">
+      <div class="tab-pane fade active in" id="home">
+          <div style="float:right; width:20%">
+            <p><b>CO2 emissions</b></p>
+            <h4 style="margin-top:15px;margin-left:25px;">
+                <div class="progress" style="width:50%;margin:0px;">
+                  <div id="em0" class="progress-bar progress-bar-success" style="width: 50%"></div>
+                </div>
+                <div class="progress" style="width:50%;margin-top:1px;">
+                  <div id="em_track0" class="progress-bar progress-bar-danger" style="width: 100%"></div>
+                </div>
+            </h4>
+            <h4 style="margin-top:-18px;margin-left:25px;">
+                <div class="progress" style="width:50%;margin:0px;">
+                  <div id="em1" class="progress-bar progress-bar-success" style="width: 50%"></div>
+                </div>
+                <div class="progress" style="width:50%;margin-top:1px;">
+                  <div id="em_track1" class="progress-bar progress-bar-danger" style="width: 100%"></div>
+                </div>
+            </h4>
+            <h4 style="margin-top:-15px; margin-bottom:14px;margin-left:25px;">
+                <div class="progress" style="width:50%;margin:0px;">
+                  <div id="em2" class="progress-bar progress-bar-success" style="width: 50%"></div>
+                </div>
+                <div class="progress" style="width:50%;margin-top:1px;">
+                  <div id="em_track2" class="progress-bar progress-bar-danger" style="width: 100%"></div>
+                </div>
+            </h4>
+            <h4 style="margin-top:-18px; margin-bottom:14px;margin-left:25px;">
+                <div class="progress" style="width:50%;margin:0px;">
+                  <div id="em3" class="progress-bar progress-bar-success" style="width: 50%"></div>
+                </div>
+                <div class="progress" style="width:50%;margin-top:1px;">
+                  <div id="em_track3" class="progress-bar progress-bar-danger" style="width: 100%"></div>
+                </div>
+            </h4>
+              </div>
+      </div>
+
+      <div class="tab-pane fade" id="profile">
+
+          <div style="float:right; width:20%">
+            <p><b>CO2 emissions</b></p>
+            <p style="margin-top:15px;margin-left:25px;">
+                <div class="progress" style="width:30%;margin:0px;float:left;">
+                  <div id="dr_em0" class="progress-bar progress-bar-success" style="width: 95%"></div>
+                </div>
+                <div class="progress" style="width:30%;margin-top:1px;">
+                  <div id="em_dr_track0" class="progress-bar progress-bar-danger" style="width: 100%"></div>
+                </div>
+            </p>
+            <p style="margin-top:-18px;margin-left:25px;">
+                <div class="progress" style="width:30%;margin:0px;float:left;">
+                  <div id="dr_em1" class="progress-bar progress-bar-success" style="width: 95%"></div>
+                </div>
+                <div class="progress" style="width:30%;margin-top:1px;">
+                  <div id="em_dr_track1" class="progress-bar progress-bar-danger" style="width: 100%"></div>
+                </div>
+            </p>
+              </div>
+          <div id="drive" style="float:right; width:80%"></div>
+
+      </div>
     </div>
+
 
 </div>
 
 <div id="map" style="width: 50%; height: 500px;">
 
 </div>
-<div id="driving" style="float:left;width:40%;overflow: auto;">
+<!--<div id="driving" style="float:left;width:40%;overflow: auto;">
 
 
 
-</div>
-<div style="float:left;left:40%;width:15%;height: 200px;overflow: auto;">
+</div> -->
+<!--<div style="float:left;left:40%;width:15%;height: 200px;overflow: auto;">
 
         <div>
         <p><b>CO2 emissions</b></p>
@@ -42,9 +104,9 @@
             </div>
 
 
-</div>
+</div> -->
 
- <script src="https://maps.googleapis.com/maps/api/js?language=en"></script>
+ <!--<script src="https://maps.googleapis.com/maps/api/js?language=en"></script>    -->
  <script src="static/js/loadgpx.js" type="text/javascript"></script>
     <script>
         function loadGPXFileIntoGoogleMap(map, filename, callback, m, distance) {
@@ -67,6 +129,8 @@
                       var track_distance = parser.CalculateDistance(data);
                       callback(points, mode, track_distance)
 
+
+
                     }
                 });
             }
@@ -85,12 +149,14 @@
                 var map = new google.maps.Map(document.getElementById("map"),mapOptions);
                 loadGPXFileIntoGoogleMap(map, "/", get_points);
 
+
+
                 function get_points(points, mode, distance) {
 
                     directionsDisplay.setMap(map);
                     directionsDisplay1.setMap(map);
-                    directionsDisplay.setPanel(document.getElementById('right-panel'));
-                    directionsDisplay1.setPanel(document.getElementById('driving'));
+                    directionsDisplay.setPanel(document.getElementById('home'));
+                    directionsDisplay1.setPanel(document.getElementById('drive'));
                     calculateAndDisplayRoute(directionsService, directionsDisplay, points, mode, distance);
                 }
 
@@ -106,6 +172,7 @@
                         track_emissions = (distance/1000)*169;
                         track_emissions = track_emissions.toFixed(2);
                          $('#emissions').val(track_emissions);
+
                          //calculate cost
                          var cost=1.4*7.5*(distance/1000)/100;
                          cost = cost.toFixed(2);
@@ -128,12 +195,14 @@
                             departureTime: new Date("August 08, 2015 11:00"),
                             },
                         provideRouteAlternatives: true,
+
                       }, function(response, status) {
                         if (status === google.maps.DirectionsStatus.OK) {
 
                           //get distance and travel_mode and calculate CO2 for suggested routes
-                            calculate_emissions(response, "TRANSIT");
+                            calculate_emissions(response, "TRANSIT", track_emissions);
                             directionsDisplay.setDirections(response);
+
                         } else {
                               window.alert('Directions request failed due to ' + status);
                             }
@@ -148,7 +217,7 @@
                       }, function(response1, status) {
                         if (status === google.maps.DirectionsStatus.OK) {
                           //get distance and travel_mode and calculate CO2 for suggested routes
-                          var em = calculate_emissions(response1, "DRIVING");
+                          var em = calculate_emissions(response1, "DRIVING", track_emissions);
                           directionsDisplay1.setDirections(response1);
                         } else {
                           window.alert('Directions request failed due to ' + status);
@@ -157,7 +226,7 @@
 
                 }
 
-                 function calculate_emissions(response, mode) {
+                 function calculate_emissions(response, mode, track_emissions) {
                     for (var i in response.routes) {
                         emissions=0
                         for (var j in  response.routes[i].legs[0].steps){
@@ -173,11 +242,13 @@
                         if (mode == "TRANSIT"){
                             for (var i=0; i<em.length; i++ ){
                                 $('#em'+i).text(em[i]);
+                                $('#em_track'+i).text(track_emissions);
                             }
                         }
                         if (mode == "DRIVING"){
                             for (var i=0; i<em.length; i++ ){
                                 $('#dr_em'+i).text(em[i]);
+                                $('#em_dr_track'+i).text(track_emissions);
                                 //$("td.adp-listsel").append("em[i]");
                             }
 
@@ -210,10 +281,17 @@
 
                 }
 
-                 }
+
+
+
+                }
 
 
               });
+      $(window).load(function() {
+     //Hide details direction after page is fully loaded in background.
+     $('.adp').hide();
+    });
 
 
 

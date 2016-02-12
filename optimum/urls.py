@@ -14,6 +14,7 @@ urlpatterns = patterns('',
     url(r'^routes', login_required(views.history_routes)),
     url(r'^tracks', login_required(views.tracks)),
     url(r'^path', login_required(views.path)),
+    url(r'^notification', login_required(views.send_notification)),
 
     # Authentication module
     url(r'^accounts/', include('allauth.urls')),
