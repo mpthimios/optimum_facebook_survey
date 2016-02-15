@@ -5,3 +5,4 @@ django-social-auth
 oauth2client
 django-allauth
 urllib3
+python-gcm
