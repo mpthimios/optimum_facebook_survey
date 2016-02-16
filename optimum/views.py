@@ -220,7 +220,7 @@ def get_file_content(service, file_id):
 def get_service(request):
         flow = flow_from_clientsecrets('optimum\static\json\json_credentials.json',
                                scope='https://www.googleapis.com/auth/drive',
-                               redirect_uri='http://127.0.0.1:8000/')
+                               redirect_uri='http://snf-697531.vm.okeanos.grnet.gr:8088/')
 
         auth_uri = flow.step1_get_authorize_url()
         print auth_uri
@@ -250,13 +250,16 @@ def get_service(request):
         return service
 
 def send_notification(request):
+    #r = requests.get("http://snf-697531.vm.okeanos.grnet.gr:8888")
+    #print r.text
+    #import pdb;pdb.set_trace()
     gcm = GCM("AIzaSyADUIx64P0lGuxHhYfY67Jru2TAFtXONzk")
     data = {'the_message': 'You have x new friends', 'param2': 'value2'}
 
     #reg_id = 'APA91bHDRCRNIGHpOfxivgwQt6ZFK3isuW4aTUOFwMI9qJ6MGDpC3MlOWHtEoe8k6PAKo0H_g2gXhETDO1dDKKxgP5LGulZQxTeNZSwva7tsIL3pvfNksgl0wu1xGbHyQxp2CexeZDKEzvugwyB5hywqvT1-UxxxqpL4EUXTWOm0RXE5CrpMk'
     #reg_id = 'dzLX8Hohdkg:APA91bFoSI3exsxUZhiJPJm1qmBqyJbXPwmCTpV2iCfCSCLMNVeibHDKDX-mZQd7of_Yw9qevSmRWtTIknJtZE9rko8EbC0751DFeWm7TqO1z34DGwgInSgWPzIKI6fc70u3Jb4iEUVr'
     reg_id = 'dtI_FJY4PFI:APA91bE06xK0ps3sh15p34kntb4NYz2KeksYqLJwikkCPptDQgFDRapvaGkzLI8lpJlGNvfxXB4pbmi39gFt2fRrQlfKPKWsMtxcC1Q-lgRKPKVMzmxtCSksZ7Bsi5vnsegbecbLxsJa'
-    notification = {'message': "hello, it's me", "sound": "default", "badge": 2}
+    notification = {'message': "hello, it's me. <3 ", 'click_action':  'Default', "sound": "default", "badge": 2}
     reg_ids = [reg_id]
     #res = gcm.plaintext_request(registration_id=reg_id, data=data)
     response = gcm.json_request(registration_ids=reg_ids, data=notification)
