@@ -162,7 +162,8 @@ def get_service(request):
 
         auth_uri = flow.step1_get_authorize_url()
         print auth_uri
-        user = UserSocialAuth.objects.get(provider='google-oauth2')
+        current_user = request.user
+        user = UserSocialAuth.objects.get(provider='google-oauth2', user=current_user.id)
         q = UserCredentials.objects.filter(user=user.user)
 
         if not q:
