@@ -60,7 +60,7 @@ def index(request):
 
         return render(request, "mainPage.html",)
 
-def history_routes(request):
+'''def history_routes(request):
     if request.method == 'GET':
 
         data = open(os.path.join(os.path.dirname(os.path.dirname(__file__)),'optimum/static/files/new_2.gpx'), 'r')
@@ -72,7 +72,7 @@ def history_routes(request):
             #dest lat="38.012388" lon="23.637945"
             return HttpResponse(data)
 
-        return render(request, "map.html")
+        return render(request, "map.html")'''
 
 def tracks(request):
     if request.method == 'GET':
@@ -90,12 +90,11 @@ def path(request):
     if request.method == 'GET':
         file=request.GET.get('file')
         service = get_service(request)
-
         if request.is_ajax():
             data = get_file_content(service, file)
             return HttpResponse(data)
 
-        return render(request, "map.html")
+        return render(request, "map.html", {'file': file})
 
 
 def retrieve_all_files(service):
@@ -156,7 +155,7 @@ def get_file_content(service, file_id):
 
 def get_service(request):
 
-        flow = flow_from_clientsecrets('/root/optimum/optimum/static/json/json_credentials.json',
+        flow = flow_from_clientsecrets('optimum\static\json\json_credentials.json',
                                scope='https://www.googleapis.com/auth/drive',
                                redirect_uri='http://snf-697531.vm.okeanos.grnet.gr:8088/')
 
