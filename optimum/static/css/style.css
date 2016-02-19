@@ -38,7 +38,7 @@ background-color: #93c54b;
 }
 
 .footer, .push {
-    min-height: 125px; /* .push must be the same height as .footer */
+    min-height: 250px; /* .push must be the same height as .footer */
 }
 
 p.center { text-align: center; }
