@@ -132,8 +132,8 @@ AUTHENTICATION_BACKENDS = (
 
 TWITTER_CONSUMER_KEY         = 'm69DRR5qxEl8DDYzmNkOgI3dX'
 TWITTER_CONSUMER_SECRET      = 'gHtJr6z7qlJxBI6XqWJ8NTi9kAQxpFJ0TKSlBSR0vnSMGSOYY4'
-FACEBOOK_APP_ID              = ''
-FACEBOOK_API_SECRET          = ''
+FACEBOOK_APP_ID              = '188714861496456'
+FACEBOOK_API_SECRET          = '95071c9888bb7bbad4b695c9271feb61'
 LINKEDIN_CONSUMER_KEY        = ''
 LINKEDIN_CONSUMER_SECRET     = ''
 ORKUT_CONSUMER_KEY           = ''
@@ -166,3 +166,14 @@ SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
     'myapp.pipeline.set_google_credentials'
     # more pipelines
 )'''
+
+SOCIAL_AUTH_FACEBOOK_SCOPE = [
+    'email',
+    'user_friends',
+    'friends_location',
+    'picture'
+]
+
+FACEBOOK_PROFILE_EXTRA_PARAMS = {'locale': 'ru_RU'}
+
+FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'user_friends']

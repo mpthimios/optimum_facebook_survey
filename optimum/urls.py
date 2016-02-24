@@ -15,6 +15,7 @@ urlpatterns = patterns('',
     url(r'^tracks', login_required(views.tracks)),
     url(r'^path', login_required(views.path)),
     url(r'^notification', login_required(views.send_notification)),
+    url(r'^getdata', login_required(views.get_facebook_data)),
 
     # Authentication module
     url(r'^accounts/', include('allauth.urls')),

@@ -1,3 +1,5 @@
+import urllib2
+
 __author__ = 'evangelie'
 import webbrowser
 import httplib2
@@ -155,7 +157,7 @@ def get_file_content(service, file_id):
 
 def get_service(request):
 
-        flow = flow_from_clientsecrets('/root/optimum/optimum/static/json/json_credentials.json',
+        flow = flow_from_clientsecrets('optimum\static\json\json_credentials',
                                scope='https://www.googleapis.com/auth/drive',
                                redirect_uri='http://snf-697531.vm.okeanos.grnet.gr:8088/')
 
@@ -197,8 +199,27 @@ def send_notification(request):
     #reg_id = 'APA91bHDRCRNIGHpOfxivgwQt6ZFK3isuW4aTUOFwMI9qJ6MGDpC3MlOWHtEoe8k6PAKo0H_g2gXhETDO1dDKKxgP5LGulZQxTeNZSwva7tsIL3pvfNksgl0wu1xGbHyQxp2CexeZDKEzvugwyB5hywqvT1-UxxxqpL4EUXTWOm0RXE5CrpMk'
     #reg_id = 'dzLX8Hohdkg:APA91bFoSI3exsxUZhiJPJm1qmBqyJbXPwmCTpV2iCfCSCLMNVeibHDKDX-mZQd7of_Yw9qevSmRWtTIknJtZE9rko8EbC0751DFeWm7TqO1z34DGwgInSgWPzIKI6fc70u3Jb4iEUVr'
     reg_id = 'dtI_FJY4PFI:APA91bE06xK0ps3sh15p34kntb4NYz2KeksYqLJwikkCPptDQgFDRapvaGkzLI8lpJlGNvfxXB4pbmi39gFt2fRrQlfKPKWsMtxcC1Q-lgRKPKVMzmxtCSksZ7Bsi5vnsegbecbLxsJa'
-    notification = {'message': "hello, it's me. <3 ", 'click_action':  'Default', "sound": "default", "badge": 2}
+    notification = {'message': "hello, it's me.", 'click_action':  'Default', "sound": "default", "badge": 2}
     reg_ids = [reg_id]
     #res = gcm.plaintext_request(registration_id=reg_id, data=data)
     response = gcm.json_request(registration_ids=reg_ids, data=notification)
     return render(request, "mainPage.html",)
+
+def get_facebook_data(request):
+    social_user = request.user.social_auth.filter(provider='facebook',).first()
+    if social_user:
+        url = u'https://graph.facebook.com/{0}/' \
+              u'friends?fields=id,name,location,picture' \
+              u'&access_token={1}'.format(
+                  social_user.uid,
+                  social_user.extra_data['access_token'],
+              )
+        #url = 'https://graph.facebook.com/v2.5/me/friends?access_token='+social_user.extra_data['access_token']
+        print url
+        res = requests.get(url)
+        print res.text
+        '''request = urllib2.Request(url)
+        friends = json.loads(urllib2.urlopen(request).read()).get('data')
+        print friends'''
+        #for friend in friends:
+    return redirect('/')
