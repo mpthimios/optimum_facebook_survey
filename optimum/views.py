@@ -25,7 +25,7 @@ import logging
 from oauth2client.client import flow_from_clientsecrets
 from oauth2client.client import FlowExchangeError
 from apiclient import errors
-
+from models import UserFacebookData
 
 import datetime
 from django.conf import settings
@@ -51,6 +51,55 @@ def index(request):
 
         except:
             raise Exception("Error processing the request, HTTP: %d" % response.status_code)'''
+        try:
+            social_user = request.user.social_auth.filter(provider='facebook',).first()
+
+            url = u'https://graph.facebook.com/{0}/' \
+                  u'friends?fields=id,name,location,picture' \
+                  u'&access_token={1}'.format(
+                      social_user.uid,
+                      social_user.extra_data['access_token'],
+                  )
+            url = u'https://graph.facebook.com/{0}/' \
+                  u'likes?access_token={1}&limit=1000'.format(
+                      social_user.uid,
+                      social_user.extra_data['access_token'],
+                  )
+            #url = 'https://graph.facebook.com/v2.5/me/friends?access_token='+social_user.extra_data['access_token']
+            print url
+            res = requests.get(url)
+            print res.text
+            likes=json.loads(res.text)
+            url2= u'https://graph.facebook.com/{0}/' \
+                  u'photos?fields=source&limit=1000&access_token={1}'.format(
+                      social_user.uid,
+                      social_user.extra_data['access_token'],
+                  )
+            print url2
+            res2 = requests.get(url2)
+            print json.loads(res2.text)
+            photos = json.loads(res2.text)
+            url3= u'https://graph.facebook.com/{0}/' \
+                  u'feed?limit=10000&access_token={1}'.format(
+                      social_user.uid,
+                      social_user.extra_data['access_token'],
+                  )
+            print url3
+            res3 = requests.get(url3)
+            print json.loads(res3.text)
+            posts = json.loads(res3.text)
+
+            user_facebook = UserFacebookData.objects.filter(user=social_user)
+            if not user_facebook:
+                new_user_data = UserFacebookData.objects.create(user = social_user, likes=likes, photos=photos, posts=posts)
+            else:
+                user_data = UserFacebookData.objects.get(user=social_user)
+                user_data.likes = likes
+                user_data.photos = photos
+                user_data.posts = posts
+                #user_data.update(likes = likes, photos = photos)'''
+        except:
+            print('not auth')
         data = open(os.path.join(os.path.dirname(os.path.dirname(__file__)),'optimum/static/files/new_2.gpx'), 'r')
         #return render(request, "map.html" )
         if request.is_ajax():
@@ -79,21 +128,32 @@ def index(request):
 def tracks(request):
     if request.method == 'GET':
         current_user = request.user
-        instance = UserSocialAuth.objects.filter(provider='google-oauth2', user=current_user.id).get()
-        pprint(instance.tokens)
-        print instance.tokens
-        print instance.tokens['access_token']
-        service= get_service(request)
-        result = retrieve_all_files(service)
-        print result
-        return render(request, "tracks.html", {'result': result} )
+        try:
+            instance = UserSocialAuth.objects.filter(provider='google-oauth2', user=current_user.id).get()
+            pprint(instance.tokens)
+            print instance.tokens
+            print instance.tokens['access_token']
+            service= get_service(request)
+            result = retrieve_all_files(service)
+            print result
+            return render(request, "tracks.html", {'result': result} )
+        except:
+            data = open(os.path.join(os.path.dirname(os.path.dirname(__file__)),'optimum/static/files/new_2.gpx'), 'r')
+            return redirect('/path')
+
 
 def path(request):
     if request.method == 'GET':
         file=request.GET.get('file')
-        service = get_service(request)
+        if not file or file == 'None':
+            data = open(os.path.join(os.path.dirname(os.path.dirname(__file__)),'optimum/static/files/new_2.gpx'), 'r')
+        else:
+            service = get_service(request)
         if request.is_ajax():
-            data = get_file_content(service, file)
+            if not file or file == 'None':
+                data = open(os.path.join(os.path.dirname(os.path.dirname(__file__)),'optimum/static/files/new_2.gpx'), 'r')
+            else:
+                data = get_file_content(service, file)
             return HttpResponse(data)
 
         return render(request, "map.html", {'file': file})
