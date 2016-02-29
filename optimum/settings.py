@@ -176,4 +176,4 @@ SOCIAL_AUTH_FACEBOOK_SCOPE = [
 
 FACEBOOK_PROFILE_EXTRA_PARAMS = {'locale': 'ru_RU'}
 
-FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'user_friends']
+FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'user_friends', 'user_likes', ]

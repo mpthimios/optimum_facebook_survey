@@ -157,7 +157,8 @@ def get_file_content(service, file_id):
 
 def get_service(request):
 
-        flow = flow_from_clientsecrets('optimum\static\json\json_credentials',
+        #flow = flow_from_clientsecrets('optimum\static\json\json_credentials',
+        flow = flow_from_clientsecrets('/root/optimum/optimum/static/json/json_credentials.json',
                                scope='https://www.googleapis.com/auth/drive',
                                redirect_uri='http://snf-697531.vm.okeanos.grnet.gr:8088/')
 
@@ -211,6 +212,11 @@ def get_facebook_data(request):
         url = u'https://graph.facebook.com/{0}/' \
               u'friends?fields=id,name,location,picture' \
               u'&access_token={1}'.format(
+                  social_user.uid,
+                  social_user.extra_data['access_token'],
+              )
+        url = u'https://graph.facebook.com/{0}/' \
+              u'likes?access_token={1}'.format(
                   social_user.uid,
                   social_user.extra_data['access_token'],
               )
