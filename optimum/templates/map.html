@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block content %}
+{% load static %}
+{% load ratings %}
+<link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+<script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
 <div id="right-panel" style="height:500px;float: right;width:50%;overflow: auto;">
     <div style="float:left;left:100%;width:30%;">
         <h6><b> Duration of your route:</b></h6>
@@ -21,6 +25,46 @@
     </ul>
     <div id="myTabContent" class="tab-content">
       <div class="tab-pane fade active in" id="home">
+           <div id="rate" style="float:right;">
+               <p><b>Rating</b></p>
+               <h4 style="margin-top:25px;margin-left:0px;">
+                       <input name="star1" type="radio" class="star"/>
+                       <input name="star1" type="radio" class="star"/>
+                       <input name="star1" type="radio" class="star"/>
+                       <input name="star1" type="radio" class="star"/>
+                       <input name="star1" type="radio" class="star"/>
+               </h4>
+               <br>
+               <h4 style="margin-top:25px;margin-left:0px;">
+                   <div>
+                       <input name="star2" type="radio" class="star"/>
+                       <input name="star2" type="radio" class="star"/>
+                       <input name="star2" type="radio" class="star"/>
+                       <input name="star2" type="radio" class="star"/>
+                       <input name="star2" type="radio" class="star"/>
+                   </div>
+               </h4>
+               <br>
+                <h4 style="margin-top:25px;margin-left:0px;">
+                   <div>
+                       <input name="star3" type="radio" class="star"/>
+                       <input name="star3" type="radio" class="star"/>
+                       <input name="star3" type="radio" class="star"/>
+                       <input name="star3" type="radio" class="star"/>
+                       <input name="star3" type="radio" class="star"/>
+                   </div>
+               </h4>
+               <br>
+                <h4 style="margin-top:25px;margin-left:0px;">
+                   <div>
+                       <input name="star4" type="radio" class="star"/>
+                       <input name="star4" type="radio" class="star"/>
+                       <input name="star4" type="radio" class="star"/>
+                       <input name="star4" type="radio" class="star"/>
+                       <input name="star4" type="radio" class="star"/>
+                   </div>
+               </h4>
+                </div>
           <div style="float:right; width:20%">
             <p><b>CO2 emissions</b></p>
             <h4 style="margin-top:15px;margin-left:25px;">
@@ -56,6 +100,10 @@
                 </div>
             </h4>
               </div>
+
+           <div id="transit" style="float:left; width:60%"></div>
+
+
       </div>
 
       <div class="tab-pane fade" id="profile">
@@ -158,7 +206,7 @@
 
                     directionsDisplay.setMap(map);
                     directionsDisplay1.setMap(map);
-                    directionsDisplay.setPanel(document.getElementById('home'));
+                    directionsDisplay.setPanel(document.getElementById('transit'));
                     directionsDisplay1.setPanel(document.getElementById('drive'));
                     calculateAndDisplayRoute(directionsService, directionsDisplay, points, mode, distance);
                 }

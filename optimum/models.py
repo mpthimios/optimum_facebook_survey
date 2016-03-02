@@ -16,3 +16,6 @@ class UserFacebookData(models.Model):
     likes = models.TextField(db_column='likes', blank=False)  # Field name made lowercase.
     photos = models.TextField(db_column='photos', blank=False)  # Field name made lowercase.
     posts =  models.TextField(db_column='posts', blank=False)
+
+class Rating(models.Model):
+    rate = models.CharField(max_length=100)

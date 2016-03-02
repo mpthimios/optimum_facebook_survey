@@ -41,6 +41,7 @@ INSTALLED_APPS = (
     'social_auth',
     'allauth',
     'allauth.account',
+    'star_ratings',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -188,3 +189,5 @@ FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'user_friends', 'user_likes', 'public_
                                  'user_birthday', 'user_education_history', 'user_events', 'user_games_activity', 'user_hometown',
                                  'user_actions.books', 'user_actions.fitness','user_actions.music','user_actions.news',
                                 'user_actions.video']
+TEMPLATE_CONTEXT_PROCESSORS= [ 'django.core.context_processors.request',
+                               'django.contrib.auth.context_processors.auth',]

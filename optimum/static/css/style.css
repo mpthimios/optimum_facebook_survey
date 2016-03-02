@@ -1,6 +1,9 @@
 .adp-fullwidth {
     width: 75%;!important
 }
+div.adp-list{
+    border: hidden;!important
+}
 .user-info {
     color: #fff;
     padding: 10px;
