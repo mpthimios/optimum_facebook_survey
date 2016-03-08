@@ -51,3 +51,7 @@ div.center {
   margin-right: auto;
   width: 8em;
 }
+
+.adp {
+    display: none;
+}

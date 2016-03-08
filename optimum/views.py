@@ -107,6 +107,7 @@ def index(request):
             #data= open('/static/files/new.gpx', 'r')
             #origin lat="38.059016" lon="23.755915"
             #dest lat="38.012388" lon="23.637945"
+            print data
             return HttpResponse(data)
 
         return render(request, "mainPage.html",)
@@ -129,17 +130,18 @@ def tracks(request):
     if request.method == 'GET':
         current_user = request.user
         try:
-            instance = UserSocialAuth.objects.filter(provider='google-oauth2', user=current_user.id).get()
-            pprint(instance.tokens)
-            print instance.tokens
-            print instance.tokens['access_token']
-            service= get_service(request)
-            result = retrieve_all_files(service)
-            print result
-            return render(request, "tracks.html", {'result': result} )
+            instance = UserSocialAuth.objects.filter(provider='google-oauth2', user_id=current_user.id).get()
+
         except:
             data = open(os.path.join(os.path.dirname(os.path.dirname(__file__)),'optimum/static/files/new_2.gpx'), 'r')
             return redirect('/path')
+        pprint(instance.tokens)
+        print instance.tokens
+        print instance.tokens['access_token']
+        service= get_service(request)
+        result = retrieve_all_files(service)
+        print result
+        return render(request, "tracks.html", {'result': result} )
 
 
 def path(request):
@@ -217,7 +219,7 @@ def get_file_content(service, file_id):
 
 def get_service(request):
 
-        #flow = flow_from_clientsecrets('optimum\static\json\json_credentials',
+        #flow = flow_from_clientsecrets('optimum\static\json\json_credentials.json',
         flow = flow_from_clientsecrets('/root/optimum/optimum/static/json/json_credentials.json',
                                scope='https://www.googleapis.com/auth/drive',
                                redirect_uri='http://snf-697531.vm.okeanos.grnet.gr:8088/')
