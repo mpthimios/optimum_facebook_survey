@@ -219,8 +219,8 @@ def get_file_content(service, file_id):
 
 def get_service(request):
 
-        #flow = flow_from_clientsecrets('optimum\static\json\json_credentials.json',
-        flow = flow_from_clientsecrets('/root/optimum/optimum/static/json/json_credentials.json',
+        flow = flow_from_clientsecrets('optimum\static\json\json_credentials.json',
+        #flow = flow_from_clientsecrets('/root/optimum/optimum/static/json/json_credentials.json',
                                scope='https://www.googleapis.com/auth/drive',
                                redirect_uri='http://snf-697531.vm.okeanos.grnet.gr:8088/')
 
