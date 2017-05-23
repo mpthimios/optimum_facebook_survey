@@ -1,8 +1,9 @@
-django==1.7
+django==1.8
 google-api-python-client
 tweepy
 django-social-auth
-oauth2client
+oauth2client==1.3
 django-allauth
 urllib3
 python-gcm
+django-star-rating
