@@ -65,8 +65,10 @@ WSGI_APPLICATION = 'optimum.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#        'ENGINE': 'django.db.backends.sqlite3',
+#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'dj_optimum',
     }
 }
 
@@ -90,12 +92,12 @@ SITE_ID = 1
 STATIC_URL = '/static/'
 
 # Additional locations of static files
-STATICFILES_DIRS = (
+#STATICFILES_DIRS = (
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    'jaqpot_ui/static',
-)
+    #'jaqpot_ui/static',
+#)
 
 LOGIN_REDIRECT_URL = '/'
 
@@ -103,9 +105,9 @@ LOGIN_URL = '/accounts/login/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 #LOGIN_ERROR_URL    = '/login-error/'
 
-TEMPLATE_DIRS = (
-  'jaqpot_ui/templates',
-)
+#TEMPLATE_DIRS = (
+#  'jaqpot_ui/templates',
+#)
 
 AUTHENTICATION_BACKENDS = (
     'social_auth.backends.twitter.TwitterBackend',
@@ -191,3 +193,5 @@ FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'user_friends', 'user_likes', 'public_
                                 'user_actions.video']
 TEMPLATE_CONTEXT_PROCESSORS= [ 'django.core.context_processors.request',
                                'django.contrib.auth.context_processors.auth',]
+
+STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
