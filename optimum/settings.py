@@ -142,30 +142,12 @@ SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '4LqzCRH2x-m-kHaoiTqTEVE9'
 
 SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
-'''SOCIAL_AUTH_PIPELINE = (
-    'social.pipeline.social_auth.social_details',
-    'social.pipeline.social_auth.social_uid',
-    'social.pipeline.social_auth.social_user',
-    'social.pipeline.user.get_username',
-    'social.pipeline.user.create_user',
-    'myapp.pipeline.set_google_credentials'
-    # more pipelines
-)'''
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email']
 
-SOCIAL_AUTH_FACEBOOK_SCOPE = [
-    'email',
-    'user_friends',
-    'friends_location',
-    'picture',
-    'public_profile', 'user_about_me', 'user_likes',
-    'user_photos', 'user_posts', 'user_relationships','user_relationship_details',
-    'user_religion_politics', 'user_tagged_places', 'user_videos', 'user_website','user_work_history',
-    'user_birthday', 'user_education_history', 'user_events', 'user_games_activity', 'user_hometown',
-    'user_actions.books', 'user_actions.fitness','user_actions.music','user_actions.news',
-    'user_actions.video'
-]
-
-FACEBOOK_PROFILE_EXTRA_PARAMS = {'locale': 'ru_RU'}
+SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
+  'locale': 'ru_RU',
+  'fields': 'id, name, email, age_range'
+}
 
 FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'user_friends', 'user_likes', 'public_profile', 'user_about_me', 'user_likes',
                                  'user_photos', 'user_posts', 'user_relationships','user_relationship_details',
@@ -174,4 +156,23 @@ FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'user_friends', 'user_likes', 'public_
                                  'user_actions.books', 'user_actions.fitness','user_actions.music','user_actions.news',
                                 'user_actions.video']
 
+
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")
+
+# Google OAuth2 (google-oauth2)
+SOCIAL_AUTH_GOOGLE_OAUTH2_IGNORE_DEFAULT_SCOPE = True
+SOCIAL_AUTH_GOOGLE_OAUTH2_SCOPE = [
+'https://www.googleapis.com/auth/userinfo.email',
+'https://www.googleapis.com/auth/userinfo.profile'
+]
+
+# Google+ SignIn (google-plus)
+SOCIAL_AUTH_GOOGLE_PLUS_IGNORE_DEFAULT_SCOPE = True
+SOCIAL_AUTH_GOOGLE_PLUS_SCOPE = [
+'https://www.googleapis.com/auth/plus.login',
+'https://www.googleapis.com/auth/userinfo.email',
+'https://www.googleapis.com/auth/userinfo.profile'
+]
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_USE_DEPRECATED_API = True
+SOCIAL_AUTH_GOOGLE_PLUS_USE_DEPRECATED_API = True
