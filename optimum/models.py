@@ -1,7 +1,7 @@
 __author__ = 'evangelie'
 from django.db import models
 from django.contrib.auth.models import User
-from social_auth.db.django_models import UserSocialAuth
+from social.apps.django_app.default.models import UserSocialAuth
 
 class UserCredentials(models.Model):
     id = models.AutoField(primary_key=True)

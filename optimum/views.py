@@ -1,5 +1,7 @@
 import urllib2
 
+from googleapiclient.discovery import build
+
 __author__ = 'evangelie'
 import webbrowser
 import httplib2
@@ -16,8 +18,8 @@ from optimum.twitter import get_tweets
 from optimum.personality import get_profil
 import json
 from pprint import pprint
-from social_auth.db.django_models import UserSocialAuth
-from apiclient.discovery import build
+from social.apps.django_app.default.models import UserSocialAuth
+#from apiclient.discovery import build
 import oauth2client
 from oauth2client import client
 from oauth2client import tools
@@ -31,7 +33,7 @@ import datetime
 from django.conf import settings
 from oauth2client import GOOGLE_REVOKE_URI, GOOGLE_TOKEN_URI
 from oauth2client.client import OAuth2Credentials, _extract_id_token
-from oauth2client.django_orm import Storage
+#from oauth2client.django_orm import Storage
 from gcm import*
 
 # Home page

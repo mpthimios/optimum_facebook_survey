@@ -38,7 +38,7 @@ INSTALLED_APPS = (
     'django.contrib.staticfiles',
     'django.contrib.sites',
     'optimum',
-    'social_auth',
+    'social.apps.django_app.default',
     'allauth',
     'allauth.account',
     'star_ratings',
@@ -52,7 +52,6 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.SessionAuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'social_auth.middleware.SocialAuthExceptionMiddleware',
 )
 
 ROOT_URLCONF = 'optimum.urls'
@@ -65,10 +64,10 @@ WSGI_APPLICATION = 'optimum.wsgi.application'
 
 DATABASES = {
     'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'dj_optimum',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        #'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        #'NAME': 'dj_optimum',
     }
 }
 
@@ -109,53 +108,36 @@ SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 #  'jaqpot_ui/templates',
 #)
 
+TEMPLATE_CONTEXT_PROCESSORS = (
+   'django.contrib.auth.context_processors.auth',
+   'django.core.context_processors.debug',
+   'django.core.context_processors.i18n',
+   'django.core.context_processors.media',
+   'django.core.context_processors.static',
+   'django.core.context_processors.tz',
+   'django.contrib.messages.context_processors.messages',
+   'social.apps.django_app.context_processors.backends',
+   'social.apps.django_app.context_processors.login_redirect',
+   'django.core.context_processors.request',
+)
+
 AUTHENTICATION_BACKENDS = (
-    'social_auth.backends.twitter.TwitterBackend',
-    'social_auth.backends.facebook.FacebookBackend',
-    'social_auth.backends.google.GoogleOAuthBackend',
-    'social_auth.backends.google.GoogleOAuth2Backend',
-    'social_auth.backends.google.GoogleBackend',
-    'social_auth.backends.yahoo.YahooBackend',
-    'social_auth.backends.browserid.BrowserIDBackend',
-    'social_auth.backends.contrib.linkedin.LinkedinBackend',
-    'social_auth.backends.contrib.disqus.DisqusBackend',
-    'social_auth.backends.contrib.livejournal.LiveJournalBackend',
-    'social_auth.backends.contrib.orkut.OrkutBackend',
-    'social_auth.backends.contrib.foursquare.FoursquareBackend',
-    'social_auth.backends.contrib.github.GithubBackend',
-    'social_auth.backends.contrib.vk.VKOAuth2Backend',
-    'social_auth.backends.contrib.live.LiveBackend',
-    'social_auth.backends.contrib.skyrock.SkyrockBackend',
-    'social_auth.backends.contrib.yahoo.YahooOAuthBackend',
-    'social_auth.backends.contrib.readability.ReadabilityBackend',
-    'social_auth.backends.contrib.fedora.FedoraBackend',
-    'social_auth.backends.OpenIDBackend',
-    'django.contrib.auth.backends.ModelBackend',
+   'social.backends.facebook.FacebookOAuth2',
+   'social.backends.facebook.FacebookAppOAuth2',
+   'social.backends.google.GoogleOAuth2',
+   'social.backends.twitter.TwitterOAuth',
+   'django.contrib.auth.backends.ModelBackend',
 )
 
 TWITTER_CONSUMER_KEY         = 'm69DRR5qxEl8DDYzmNkOgI3dX'
 TWITTER_CONSUMER_SECRET      = 'gHtJr6z7qlJxBI6XqWJ8NTi9kAQxpFJ0TKSlBSR0vnSMGSOYY4'
-FACEBOOK_APP_ID              = '188714861496456'
-FACEBOOK_API_SECRET          = '95071c9888bb7bbad4b695c9271feb61'
-LINKEDIN_CONSUMER_KEY        = ''
-LINKEDIN_CONSUMER_SECRET     = ''
-ORKUT_CONSUMER_KEY           = ''
-ORKUT_CONSUMER_SECRET        = ''
+SOCIAL_AUTH_FACEBOOK_KEY     = '188714861496456'
+SOCIAL_AUTH_FACEBOOK_SECRET  = '95071c9888bb7bbad4b695c9271feb61'
 GOOGLE_CONSUMER_KEY          = 'anonymous'
 GOOGLE_CONSUMER_SECRET       = 'anonymous'
-GOOGLE_OAUTH2_CLIENT_ID      = '627494330377-i453drmks3pp1hr78m3hb7bct0etpvja.apps.googleusercontent.com'
-GOOGLE_OAUTH2_CLIENT_SECRET  = '4LqzCRH2x-m-kHaoiTqTEVE9'
-FOURSQUARE_CONSUMER_KEY      = ''
-FOURSQUARE_CONSUMER_SECRET   = ''
-VK_APP_ID                    = ''
-VK_API_SECRET                = ''
-LIVE_CLIENT_ID               = ''
-LIVE_CLIENT_SECRET           = ''
-SKYROCK_CONSUMER_KEY         = ''
-SKYROCK_CONSUMER_SECRET      = ''
-YAHOO_CONSUMER_KEY           = ''
-YAHOO_CONSUMER_SECRET        = ''
-READABILITY_CONSUMER_SECRET  = ''
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '627494330377-i453drmks3pp1hr78m3hb7bct0etpvja.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = '4LqzCRH2x-m-kHaoiTqTEVE9'
+
 
 
 SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
@@ -191,7 +173,5 @@ FACEBOOK_EXTENDED_PERMISSIONS = ['email', 'user_friends', 'user_likes', 'public_
                                  'user_birthday', 'user_education_history', 'user_events', 'user_games_activity', 'user_hometown',
                                  'user_actions.books', 'user_actions.fitness','user_actions.music','user_actions.news',
                                 'user_actions.video']
-TEMPLATE_CONTEXT_PROCESSORS= [ 'django.core.context_processors.request',
-                               'django.contrib.auth.context_processors.auth',]
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")

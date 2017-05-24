@@ -9,8 +9,10 @@
           <div class="login-icon">
 
             <h4>Welcome to Optimum</h4>
-              <a href="{% url 'socialauth_begin' 'google-oauth2' %}"><img src="/static/img/google.jpg" style="width:30px;height:30px;margin:5px;" ></a>
-              <a href="{% url 'socialauth_begin' 'facebook' %}?next={{ request.path }}"><img src="/static/img/facebook.png" style="width:30px;height:30px;margin:5px;" ></a>
+              <a href="{% url 'social:begin' 'google-oauth2' %}?next={{ request.path }}"><img src="/static/img/google.jpg" style="width:30px;height:30px;margin:5px;" ></a>
+              <a href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><img src="/static/img/facebook.png" style="width:30px;height:30px;margin:5px;" ></a>
+          </div>
+
           </div>
           {% if form.errors %}
             <div class="alert alert-dismissible alert-danger">

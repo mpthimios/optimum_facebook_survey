@@ -10,7 +10,7 @@ urlpatterns = patterns('',
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.index, name='home'),
-    url(r'', include('social_auth.urls')),
+    url(r'', include('social.apps.django_app.urls', namespace='social')),
     #url(r'^routes', login_required(views.history_routes)),
     url(r'^tracks', login_required(views.tracks)),
     url(r'^path', login_required(views.path)),
