@@ -88,7 +88,7 @@ def index(request):
         
         try:
             facebook_login = request.user.social_auth.get(provider='facebook')
-        except UserSocialAuth.DoesNotExist:
+        except:
             facebook_login = None
         context = {'request': request, 'user': request.user, 'facebook_login': facebook_login}
         context.update(csrf(request))        
