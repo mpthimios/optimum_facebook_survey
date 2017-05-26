@@ -2,21 +2,18 @@
 
 {% block content %}
  <!-- <h1>Welcome!</h1>  -->
-{% if user.is_authenticated %}
-<div class="jumbotron" style="width:25%;padding:10px;margin:5px;">
-  <h1>Select a route </h1>
-  <img src="/static/img/map2.jpg" style="width:95%;margin:10px;">
-  <p><a class="btn btn-success btn-large btn-block"  href="/tracks">Tracks</a></p>
+{% if facebook_login != None %}
+<div class="jumbotron" style="width:100%;float:left;padding:10px;margin-left:5px;margin-right:5px;margin-top:40px;text-align: center;">
+  <h2>Thank you for connecting to Optimum {{ user.username }} - you may disconnect anytime by clicking the button below </h2>
+  <form method="post" action="{% url 'social:disconnect' 'facebook' %}">
+    {% csrf_token %}
+    <button type="submit"><img src="/static/img/disconnect.png" style="width:150px;margin:5px;"></button>
+  </form>  
 </div>
-{% endif %}
-{% if not user.is_authenticated %}
-<div class="jumbotron" style="width:25%;float:left;padding:10px;margin:5px;">
-  <h1>Already have account?</h1>
-  <p><a class="btn btn-success btn-large btn-block"  href="/accounts/login">Login</a></p>
-</div>
-<div class="jumbotron" style="width:25%;float:left;padding:10px;margin:5px;">
-  <h1>Create new account</h1>
-  <p><a class="btn btn-success btn-large btn-block"  href="/accounts/signup">Create account</a></p>
+{% else %}
+<div class="jumbotron" style="width:100%;float:left;padding:10px;margin-left:5px;margin-right:5px;margin-top:40px;text-align: center;">
+  <h2>Connect to Optimum using your facebook account and help us in our research</h2>
+  <p><a class="" style="width:30%"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><img src="/static/img/facebook_connect_button.png" style="width:400px;margin:5px;"></a></p>
 </div>
 {% endif  %}
 
@@ -26,7 +23,7 @@
 
     <p class="center"><img src="/static/img/optimum_logo.png" class="tile-image text-center"></p>
     <div class="text-center">This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 636160-2.</div>
-    <div class="text-center">Copyright © 2016 .All rights reserved.</div>
+    <div class="text-center">Copyright © 2017. All rights reserved.</div>
 </footer>
 
 {% endblock %}
