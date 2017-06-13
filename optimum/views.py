@@ -99,11 +99,7 @@ def get_facebook_data(request):
 
     user_facebook = UserFacebookData.objects.filter(user=social_user)
     if not user_facebook:
-        new_user_data = UserFacebookData.objects.create(user = social_user, likes=likes, tagged_photos=tagged_photos, uploaded_photos=uploaded_photos, posts=posts)
-        user_data.likes = likes
-        user_data.tagged_photos = tagged_photos
-        user_data.uploaded_photos = uploaded_photos
-        user_data.posts = posts                
+        new_user_data = UserFacebookData.objects.create(user = social_user, likes=likes, tagged_photos=tagged_photos, uploaded_photos=uploaded_photos, posts=posts)        
     else:
         user_data = UserFacebookData.objects.get(user=social_user)
     return True
