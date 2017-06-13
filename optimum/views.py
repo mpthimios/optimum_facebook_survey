@@ -36,84 +36,75 @@ from gcm import*
 from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.template.context_processors import csrf
+import sys, traceback
 
 # Home page
 def index(request):
     if request.method == 'GET':
-        
+        facebook_login = None        
         try:
-            social_user = request.user.social_auth.filter(provider='facebook',).first()
-
-
-            url = u'https://graph.facebook.com/{0}/' \
-                  u'friends?fields=id,name,location,picture' \
-                  u'&access_token={1}'.format(
-                      social_user.uid,
-                      social_user.extra_data['access_token'],
-                  )
-            url = u'https://graph.facebook.com/{0}/' \
-                  u'likes?access_token={1}&limit=1000'.format(
-                      social_user.uid,
-                      social_user.extra_data['access_token'],
-                  )
-                        
-            res = requests.get(url)            
-            likes= res.text
-            url2= u'https://graph.facebook.com/{0}/' \
-                  u'photos?fields=source&limit=1000&access_token={1}'.format(
-                      social_user.uid,
-                      social_user.extra_data['access_token'],
-                  )            
-            res2 = requests.get(url2)            
-            photos = res2.text
-            url3= u'https://graph.facebook.com/{0}/' \
-                  u'feed?limit=10000&access_token={1}'.format(
-                      social_user.uid,
-                      social_user.extra_data['access_token'],
-                  )
-            res3 = requests.get(url3)            
-            posts = res3.text
-
-            user_facebook = UserFacebookData.objects.filter(user=social_user)
-            if not user_facebook:
-                new_user_data = UserFacebookData.objects.create(user = social_user, likes=likes, photos=photos, posts=posts)
-                user_data.likes = likes
-                user_data.photos = photos
-                user_data.posts = posts                
-            else:
-                user_data = UserFacebookData.objects.get(user=social_user)
-                
+          facebook_login = request.user.social_auth.get(provider='facebook')
+          try:
+            get_facebook_data(request)
+          except:
+            print "could not get facebook data"
+            traceback.print_exc()
         except:
-            print('not auth')
-        
-        try:
-            facebook_login = request.user.social_auth.get(provider='facebook')
-        except:
-            facebook_login = None
+          print "user is not authenticated"      
         context = {'request': request, 'user': request.user, 'facebook_login': facebook_login}
         context.update(csrf(request))        
         return render_to_response('mainPage.html', context)        
 
 def get_facebook_data(request):
     social_user = request.user.social_auth.filter(provider='facebook',).first()
-    if social_user:
-        url = u'https://graph.facebook.com/{0}/' \
-              u'friends?fields=id,name,location,picture' \
-              u'&access_token={1}'.format(
-                  social_user.uid,
-                  social_user.extra_data['access_token'],
-              )
-        url = u'https://graph.facebook.com/{0}/' \
-              u'likes?access_token={1}'.format(
-                  social_user.uid,
-                  social_user.extra_data['access_token'],
-              )
-        #url = 'https://graph.facebook.com/v2.5/me/friends?access_token='+social_user.extra_data['access_token']
-        print url
-        res = requests.get(url)
-        print res.text
-        '''request = urllib2.Request(url)
-        friends = json.loads(urllib2.urlopen(request).read()).get('data')
-        print friends'''
-        #for friend in friends:
-    return redirect('/')
+
+
+    friends_url = u'https://graph.facebook.com/{0}/' \
+          u'friends?fields=id,name,location,picture' \
+          u'&access_token={1}'.format(
+              social_user.uid,
+              social_user.extra_data['access_token'],
+          )
+    likes_url = u'https://graph.facebook.com/{0}/' \
+          u'likes?access_token={1}&limit=1000'.format(
+              social_user.uid,
+              social_user.extra_data['access_token'],
+          )
+                
+    res = requests.get(likes_url)            
+    likes= res.text
+    tagged_photos_url= u'https://graph.facebook.com/{0}/' \
+          u'photos?fields=source&limit=1000&access_token={1}'.format(
+              social_user.uid,
+              social_user.extra_data['access_token'],
+          )            
+    res2 = requests.get(tagged_photos_url)            
+    tagged_photos = res2.text
+
+    uploaded_photos_url= u'https://graph.facebook.com/{0}/' \
+          u'photos/uploaded?fields=source&limit=1000&access_token={1}'.format(
+              social_user.uid,
+              social_user.extra_data['access_token'],
+          )            
+    res3 = requests.get(uploaded_photos_url)            
+    uploaded_photos = res3.text
+
+    posts_url= u'https://graph.facebook.com/{0}/' \
+          u'feed?limit=10000&access_token={1}'.format(
+              social_user.uid,
+              social_user.extra_data['access_token'],
+          )
+    res4 = requests.get(posts_url)            
+    posts = res4.text
+
+    user_facebook = UserFacebookData.objects.filter(user=social_user)
+    if not user_facebook:
+        new_user_data = UserFacebookData.objects.create(user = social_user, likes=likes, tagged_photos=tagged_photos, uploaded_photos=uploaded_photos, posts=posts)
+        user_data.likes = likes
+        user_data.tagged_photos = tagged_photos
+        user_data.uploaded_photos = uploaded_photos
+        user_data.posts = posts                
+    else:
+        user_data = UserFacebookData.objects.get(user=social_user)
+    return True
+

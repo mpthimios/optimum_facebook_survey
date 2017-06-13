@@ -10,8 +10,7 @@ urlpatterns = [
 
     url(r'^admin/', include(admin.site.urls)),
     url(r'^$', views.index, name='home'),
-    url(r'^oauth/', include('social_django.urls', namespace='social')),
-    # url(r'^logout/$', 'django.contrib.auth.views.logout',
-    #                       {'next_page': '/'}),
+    url(r'^oauth/', include('social_django.urls', namespace='social')),    
+    #url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
 
 ]

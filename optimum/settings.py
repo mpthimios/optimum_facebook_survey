@@ -31,7 +31,7 @@ DEBUG = True
 
 TEMPLATE_DEBUG = True
 
-ALLOWED_HOSTS = ['optimum-facebook-survey.imu-projects.eu']
+ALLOWED_HOSTS = ['optimum-facebook-survey.imu-projects.eu', 'localhost']
 
 
 # Application definition
@@ -154,22 +154,30 @@ SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
   'fields': 'id, name, email, age_range'
 }
 
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',    
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
+
 SOCIAL_AUTH_DISCONNECT_PIPELINE = (
-# Verifies that the social association can be disconnected from the current
-# user (ensure that the user login mechanism is not compromised by this
-# disconnection).
-#'social.pipeline.disconnect.allowed_to_disconnect',
+    # Verifies that the social association can be disconnected from the current
+    # user (ensure that the user login mechanism is not compromised by this
+    # disconnection).
+    #'social_core.pipeline.disconnect.allowed_to_disconnect',
 
-# Collects the social associations to disconnect.
-'social.pipeline.disconnect.get_entries',
+    # Collects the social associations to disconnect.
+    'social_core.pipeline.disconnect.get_entries',
 
-# Revoke any access_token when possible.
-'social.pipeline.disconnect.revoke_tokens',
+    # Revoke any access_token when possible.
+    'social_core.pipeline.disconnect.revoke_tokens',
 
-# Removes the social associations.
-'social.pipeline.disconnect.disconnect',
-
-#'django.contrib.auth.logout',
+    # Removes the social associations.
+    'social_core.pipeline.disconnect.disconnect',
 )
 
 STATIC_ROOT = os.path.join(BASE_DIR, "staticfiles/")

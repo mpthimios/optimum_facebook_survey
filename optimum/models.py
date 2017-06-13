@@ -19,9 +19,10 @@ class UserCredentials(models.Model):
 class UserFacebookData(models.Model):
     id = models.AutoField(primary_key=True)
     user = models.ForeignKey(UserSocialAuth,blank=False)
-    likes = models.TextField(db_column='likes', blank=False)  # Field name made lowercase.
-    photos = models.TextField(db_column='photos', blank=False)  # Field name made lowercase.
-    posts =  models.TextField(db_column='posts', blank=False)
+    likes = models.TextField(db_column='likes', blank=False, default='')  # Field name made lowercase.
+    tagged_photos = models.TextField(db_column='tagged_photos', blank=False, default='')  # Field name made lowercase.
+    uploaded_photos = models.TextField(db_column='uploaded_photos', blank=False, default='')  # Field name made lowercase.
+    posts =  models.TextField(db_column='posts', blank=False, default='')
 
 class UserFacebookPhotoAnalysis(models.Model):
     id = models.AutoField(primary_key=True)
@@ -31,8 +32,22 @@ class UserFacebookPhotoAnalysis(models.Model):
 
 def analyze_facebook_data(modeladmin, request, queryset):
     for entry in queryset:
-        photos_json = json.loads(entry.photos)
-        for photo in photos_json['data']:
+        tagged_photos_json = json.loads(entry.tagged_photos)
+        for photo in tagged_photos_json['data']:
+            print photo["source"]
+            app = ClarifaiApp(CLARIFAI_APP_ID, CLARIFAI_APP_SECRET)
+            # get the general model
+            model = app.models.get("general-v1.3")
+            # predict with the model
+            response = model.predict_by_url(url=photo["source"])            
+            #concepts_json = json.loads(response)            
+            keywords = ""
+            for concept in response['outputs'][0]['data']['concepts']:
+                keywords = keywords + " " + concept["name"]
+            new_UserFacebookPhotoAnalysis = UserFacebookPhotoAnalysis.objects.create(user = entry.user, photo=photo["source"], keywords=keywords)
+            new_UserFacebookPhotoAnalysis.save()
+        uploaded_photos_json = json.loads(entry.uploaded_photos)
+        for photo in uploaded_photos_json['data']:
             print photo["source"]
             app = ClarifaiApp(CLARIFAI_APP_ID, CLARIFAI_APP_SECRET)
             # get the general model
