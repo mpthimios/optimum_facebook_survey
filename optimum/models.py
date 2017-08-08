@@ -8,6 +8,7 @@ from clarifai import rest
 from clarifai.rest import ClarifaiApp
 import json, codecs
 from credentials import *
+from actions import export_as_csv_action
 
 class UserCredentials(models.Model):
     id = models.AutoField(primary_key=True)
@@ -114,6 +115,10 @@ class UserFacebookDataAdmin(admin.ModelAdmin):
 admin.site.register(UserFacebookData, UserFacebookDataAdmin)
 
 class UserFacebookPhotoAnalysisAdmin(admin.ModelAdmin):
+    list_display = ('user', 'photo','keywords')
+    search_fields = ['user__user__username',]
+    list_filter = ('user',)
+    actions = [export_as_csv_action("CSV Export", fields=['user', 'photo','keywords'])]
     pass
 admin.site.register(UserFacebookPhotoAnalysis, UserFacebookPhotoAnalysisAdmin)
 
