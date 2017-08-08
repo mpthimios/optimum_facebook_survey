@@ -111,6 +111,7 @@ def analyze_facebook_data(modeladmin, request, queryset):
 analyze_facebook_data.short_description = "Analyze facebook data"
 
 class UserFacebookDataAdmin(admin.ModelAdmin):
+    list_display = ('user',)
     actions = [analyze_facebook_data]
 admin.site.register(UserFacebookData, UserFacebookDataAdmin)
 
@@ -123,10 +124,16 @@ class UserFacebookPhotoAnalysisAdmin(admin.ModelAdmin):
 admin.site.register(UserFacebookPhotoAnalysis, UserFacebookPhotoAnalysisAdmin)
 
 class UserFacebookPostsAnalysisAdmin(admin.ModelAdmin):
+    list_display = ('user', 'post')
+    search_fields = ['user__user__username',]
+    list_filter = ('user',)
     pass
 admin.site.register(UserFacebookPostsAnalysis, UserFacebookPostsAnalysisAdmin)
 
 class UserFacebookLikesAnalysisAdmin(admin.ModelAdmin):
+    list_display = ('user', 'like')
+    search_fields = ['user__user__username',]
+    list_filter = ('user',)
     pass
 admin.site.register(UserFacebookLikesAnalysis, UserFacebookLikesAnalysisAdmin)
 
