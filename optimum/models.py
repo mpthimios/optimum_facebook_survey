@@ -78,7 +78,7 @@ def analyze_facebook_data(modeladmin, request, queryset):
             #concepts_json = json.loads(response)            
             keywords = ""
             for concept in response['outputs'][0]['data']['concepts']:
-                keywords = keywords + " " + concept["name"]
+                keywords = keywords + concept["name"] + ";"
                 all_photo_tags.append(concept["name"])
             new_UserFacebookPhotoAnalysis = UserFacebookPhotoAnalysis.objects.create(user = entry.user, photo=photo["source"], keywords=keywords)
             new_UserFacebookPhotoAnalysis.save()
