@@ -142,12 +142,15 @@ AUTHENTICATION_BACKENDS = (
 
 SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_friends', 'user_likes', 'public_profile', 'user_about_me', 'user_likes',
-                                 'user_photos', 'user_posts', 'user_relationships','user_relationship_details',
-                                 'user_religion_politics', 'user_tagged_places', 'user_videos', 'user_website','user_work_history',
-                                 'user_birthday', 'user_education_history', 'user_events', 'user_games_activity', 'user_hometown',
-                                 'user_actions.books', 'user_actions.fitness','user_actions.music','user_actions.news',
-                                'user_actions.video']
+#SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_friends', 'user_likes', 'public_profile', 'user_about_me', 'user_likes',
+#                                 'user_photos', 'user_posts', 'user_relationships','user_relationship_details',
+#                                 'user_religion_politics', 'user_tagged_places', 'user_videos', 'user_website','user_work_history',
+#                                 'user_birthday', 'user_education_history', 'user_events', 'user_games_activity', 'user_hometown',
+#                                 'user_actions.books', 'user_actions.fitness','user_actions.music','user_actions.news',
+#                                'user_actions.video']
+
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_likes', 'public_profile', 'user_about_me',
+                                 'user_photos', 'user_posts']
 
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
   'locale': 'ru_RU',
