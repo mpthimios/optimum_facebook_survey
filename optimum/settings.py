@@ -108,6 +108,7 @@ STATIC_URL = '/static/'
     #'jaqpot_ui/static',
 #)
 
+#SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_LOGIN_REDIRECT_URL = '/'
 SOCIAL_AUTH_DISCONNECT_REDIRECT_URL = '/'
 #LOGIN_ERROR_URL    = '/login-error/'

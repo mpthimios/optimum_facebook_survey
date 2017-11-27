@@ -10,7 +10,7 @@ from optimum.utils import creds_to_json, creds_from_json
 from apiclient import errors
 from apiclient import http
 import os
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.template.context import RequestContext
 import requests
 from django.shortcuts import render, redirect, render_to_response
@@ -41,6 +41,16 @@ import sys, traceback
 # Home page
 def index(request):
     if request.method == 'GET':
+        print "how to handle this"
+        #http://survey.tech-experience.at/index.php/943719/lang-en
+        referer = request.META.get('HTTP_REFERER')
+        request.session['referer'] = ""
+        referer_url_present = None
+        if (referer != None and referer.find("survey.tech-experience.at") >=0):        
+          request.session['referer'] = request.META.get('HTTP_REFERER')
+        if (request.session['referer'] != ""):
+          referer_url_present = "present"
+        session_referer = request.META.get('HTTP_REFERER')
         facebook_login = None        
         try:
           facebook_login = request.user.social_auth.get(provider='facebook')
@@ -51,9 +61,13 @@ def index(request):
             traceback.print_exc()
         except:
           print "user is not authenticated"      
-        context = {'request': request, 'user': request.user, 'facebook_login': facebook_login}
+        context = {'request': request, 'user': request.user, 'facebook_login': facebook_login, 'session_referer': session_referer, 'referer_url_present': referer_url_present}
         context.update(csrf(request))        
-        return render_to_response('mainPage.html', context)        
+        return render_to_response('mainPage.html', context)
+
+def survey_redirect(request):    
+    redirect_url = request.session['referer']    
+    return HttpResponseRedirect(redirect_url)
 
 def get_facebook_data(request):
     social_user = request.user.social_auth.filter(provider='facebook',).first()

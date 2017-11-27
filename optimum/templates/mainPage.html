@@ -4,11 +4,50 @@
  <!-- <h1>Welcome!</h1>  -->
 {% if facebook_login != None %}
 <div class="jumbotron" style="width:100%;float:left;padding:10px;margin-left:5px;margin-right:5px;margin-top:40px;text-align: center;">
-  <h2>Thank you for connecting to Optimum {{ user.username }} - you may disconnect anytime by clicking the button below </h2>
+  <h3>Thank you for connecting to Optimum {{ user.username }} </h2>
+    {% if referer_url_present != "" %}
+      <div class="countdown">
+        You will be redirected to the Optimum survey in:
+        <span id="clock"></span>
+        <br/>
+        <a href="/survey">Click here to return to the Optimum survey now.</a>
+      </div>
+      <script>
+        // Set the date we're counting down to        
+        var countDownDate = new Date();
+        countDownDate.setSeconds(countDownDate.getSeconds() + 10);
+
+        // Update the count down every 1 second
+        var x = setInterval(function() {
+
+          // Get todays date and time
+          var now = new Date().getTime();
+
+          // Find the distance between now an the count down date
+          var distance = countDownDate - now;
+
+          // Time calculations for days, hours, minutes and seconds
+          var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+          var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+          var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+          var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+          // Display the result in the element with id="demo"
+          document.getElementById("clock").innerHTML = seconds + " seconds";
+
+          // If the count down is finished, write some text 
+          if (distance <= 0) {            
+            window.location.href = "/survey/?next={{session_referer}}";            
+          }
+        }, 1000);
+        </script>
+    {%endif%}
+  <h2>You may disconnect anytime by clicking the button below </h3>
   <form method="post" action="{% url 'social:disconnect' 'facebook' %}">
     {% csrf_token %}
-    <button type="submit"><img src="/static/img/disconnect.png" style="width:150px;margin:5px;"></button>
-  </form>  
+    <button type="submit"><img src="/static/img/disconnect.png" style="width:50px;margin:5px;"></button>
+  </form>
+
 </div>
 {% else %}
 <div class="jumbotron" style="width:100%;float:left;padding:10px;margin-left:5px;margin-right:5px;margin-top:40px;text-align: center;">
