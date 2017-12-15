@@ -40,17 +40,25 @@ import sys, traceback
 
 # Home page
 def index(request):
-    if request.method == 'GET':
+  if request.method == 'GET':
+    context = {}
+    #return render_to_response('mainPage.html', context)
+    return render(request, 'mainPage.html', context)
+
+def facebook_connect(request):
+    if request.method == 'POST':
         print "how to handle this"
         #http://survey.tech-experience.at/index.php/943719/lang-en
-        referer = request.META.get('HTTP_REFERER')
-        request.session['referer'] = ""
-        referer_url_present = None
-        if (referer != None and referer.find("survey.tech-experience.at") >=0):        
-          request.session['referer'] = request.META.get('HTTP_REFERER')
-        if (request.session['referer'] != ""):
-          referer_url_present = "present"
-        session_referer = request.META.get('HTTP_REFERER')
+        #referer = request.META.get('HTTP_REFERER')
+        #request.session['referer'] = ""
+        #referer_url_present = None
+        #if (referer != None and referer.find("survey.tech-experience.at") >=0):        
+        #  request.session['referer'] = request.META.get('HTTP_REFERER')
+        #if (request.session['referer'] != ""):
+        #  referer_url_present = "present"
+        #session_referer = request.META.get('HTTP_REFERER')
+        referer_url = "http://survey.tech-experience.at/index.php/943719/lang-en?accessFBdata1=id1233242123&newtest=Y"
+
         facebook_login = None        
         try:
           facebook_login = request.user.social_auth.get(provider='facebook')
@@ -61,12 +69,13 @@ def index(request):
             traceback.print_exc()
         except:
           print "user is not authenticated"      
-        context = {'request': request, 'user': request.user, 'facebook_login': facebook_login, 'session_referer': session_referer, 'referer_url_present': referer_url_present}
+        context = {'request': request, 'user': request.user, 'facebook_login': facebook_login, 'referer': referer_url}
         context.update(csrf(request))        
-        return render_to_response('mainPage.html', context)
+        return render_to_response('facebookPage.html', context)
 
-def survey_redirect(request):    
-    redirect_url = request.session['referer']    
+def survey_redirect(request):
+    redirect_url = request.GET["next"]
+    print redirect_url
     return HttpResponseRedirect(redirect_url)
 
 def get_facebook_data(request):

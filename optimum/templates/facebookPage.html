@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block content %}
+ <!-- <h1>Welcome!</h1>  -->
+{% if facebook_login != None %}
+<div class="jumbotron" style="width:100%;float:left;padding:10px;margin-left:5px;margin-right:5px;margin-top:40px;text-align: center;">
+  <h3>Thank you for connecting to Optimum {{ user.username }} </h2>
+      <div class="countdown">
+        You will be redirected to the Optimum survey in:
+        <span id="clock"></span>
+        <br/>
+        <a href="/survey">Click here to return to the Optimum survey now.</a>
+      </div>
+      <script>        
+          window.location.href = "/survey/?next={{referer}}";         
+        </script>    
+  <h2>You may disconnect anytime by clicking the button below </h3>
+  <form method="post" action="{% url 'social:disconnect' 'facebook' %}">
+    {% csrf_token %}
+    <button type="submit"><img src="/static/img/disconnect.png" style="width:50px;margin:5px;"></button>
+  </form>
+
+</div>
+{% else %}
+<div class="jumbotron" style="width:100%;float:left;padding:10px;margin-left:5px;margin-right:5px;margin-top:40px;text-align: center;">
+  <h2>Connect to Optimum using your facebook account and help us in our research</h2>
+  <p><a class="" style="width:30%"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><img src="/static/img/facebook_connect_button.png" style="width:400px;margin:5px;"></a></p>
+</div>
+{% endif  %}
+
+<div class="push"></div>
+
+<footer id="footer" class="footer" style="background-color:#000;border-radius: 4px;min-height: 250px;">
+
+    <p class="center"><img src="/static/img/optimum_logo.png" class="tile-image text-center"></p>
+    <div class="text-center">This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 636160-2.</div>
+    <div class="text-center">Copyright © 2017. All rights reserved.</div>
+</footer>
+
+{% endblock %}
