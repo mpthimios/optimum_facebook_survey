@@ -85,7 +85,7 @@ def facebook_connect(request):
             random_user_id = ''.join(random.choice('0123456789ABCDEF') for i in range(16))
             print random_user_id
             get_facebook_data(request, random_user_id)            
-            referer_url = "http://survey.tech-experience.at/index.php/943719/" + url_lang + "?accessFBdata1=" + random_user_id + "&newtest=Y"
+            referer_url = "http://survey.tech-experience.at/index.php/943719/" + url_lang + "?accessFBdata1=" + random_user_id
           except:
             print "could not get facebook data"
             traceback.print_exc()
@@ -108,7 +108,7 @@ def facebook_connect(request):
             random_user_id = ''.join(random.choice('0123456789ABCDEF') for i in range(16))
             print random_user_id
             get_facebook_data(request, random_user_id)            
-            referer_url = "http://survey.tech-experience.at/index.php/943719/" + url_lang + "?accessFBdata1=" + random_user_id + "&newtest=Y"
+            referer_url = "http://survey.tech-experience.at/index.php/943719/" + url_lang + "?accessFBdata1=" + random_user_id
           except:
             print "could not get facebook data"
             traceback.print_exc()
@@ -132,8 +132,8 @@ def facebook_disconnect(request):
 
 def survey_redirect(request):
     redirect_url = request.GET["next"]
-    print redirect_url
-    return HttpResponseRedirect(redirect_url)
+    print redirect_url + "&newtest=Y"
+    return HttpResponseRedirect(redirect_url + "&newtest=Y")
 
 def get_facebook_data(request, random_user_id):
     social_user = request.user.social_auth.filter(provider='facebook',).first()
