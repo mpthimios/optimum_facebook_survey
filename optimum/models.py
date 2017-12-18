@@ -24,6 +24,7 @@ class UserFacebookData(models.Model):
     tagged_photos = models.TextField(db_column='tagged_photos', blank=False, default='')  # Field name made lowercase.
     uploaded_photos = models.TextField(db_column='uploaded_photos', blank=False, default='')  # Field name made lowercase.
     posts =  models.TextField(db_column='posts', blank=False, default='')
+    random_id = models.TextField(db_column='random_id', blank=False, default='')
 
 class UserFacebookPhotoAnalysis(models.Model):
     id = models.AutoField(primary_key=True)
@@ -78,7 +79,7 @@ def analyze_facebook_data(modeladmin, request, queryset):
             #concepts_json = json.loads(response)            
             keywords = ""
             for concept in response['outputs'][0]['data']['concepts']:
-                keywords = keywords + concept["name"] + ";"
+                keywords = keywords + concept["name"] + ":" + str(concept["value"]) + ";"
                 all_photo_tags.append(concept["name"])
             new_UserFacebookPhotoAnalysis = UserFacebookPhotoAnalysis.objects.create(user = entry.user, photo=photo["source"], keywords=keywords)
             new_UserFacebookPhotoAnalysis.save()

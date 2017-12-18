@@ -37,17 +37,26 @@ from django.shortcuts import render_to_response
 from django.template.context import RequestContext
 from django.template.context_processors import csrf
 import sys, traceback
+import random
 
 # Home page
 def index(request):
   if request.method == 'GET':
-    context = {}
-    #return render_to_response('mainPage.html', context)
+    lang = "en"
+    try: 
+      print request.GET.get('lang')
+      if (request.GET.get('lang') != None):
+        if (request.GET.get('lang') == "de"):
+          lang = "de"
+    except:
+      print "lang not available"
+
+    context = {'lang' : lang}    
     return render(request, 'mainPage.html', context)
 
 def facebook_connect(request):
     if request.method == 'POST':
-        print "how to handle this"
+        print "POST"
         #http://survey.tech-experience.at/index.php/943719/lang-en
         #referer = request.META.get('HTTP_REFERER')
         #request.session['referer'] = ""
@@ -57,28 +66,76 @@ def facebook_connect(request):
         #if (request.session['referer'] != ""):
         #  referer_url_present = "present"
         #session_referer = request.META.get('HTTP_REFERER')
-        referer_url = "http://survey.tech-experience.at/index.php/943719/lang-en?accessFBdata1=id1233242123&newtest=Y"
 
+        url_lang = "lang-en"
+        lang = (request.POST.get('lang', ''))
+        if (lang == "de"):
+          url_lang = "lang-de"
+        
+        print url_lang
+        request.session['lang'] = url_lang
+
+        random_user_id = ''.join(random.choice('0123456789ABCDEF') for i in range(16))
+        print random_user_id
+        referer_url = ''
         facebook_login = None        
         try:
           facebook_login = request.user.social_auth.get(provider='facebook')
           try:
-            get_facebook_data(request)
+            random_user_id = ''.join(random.choice('0123456789ABCDEF') for i in range(16))
+            print random_user_id
+            get_facebook_data(request, random_user_id)            
+            referer_url = "http://survey.tech-experience.at/index.php/943719/" + url_lang + "?accessFBdata1=" + random_user_id + "&newtest=Y"
           except:
             print "could not get facebook data"
             traceback.print_exc()
         except:
           print "user is not authenticated"      
-        context = {'request': request, 'user': request.user, 'facebook_login': facebook_login, 'referer': referer_url}
+        context = {'request': request, 'user': request.user, 'facebook_login': facebook_login, 'referer': referer_url, 'lang': url_lang}
         context.update(csrf(request))        
         return render_to_response('facebookPage.html', context)
+    else:
+        print "GET"
+        url_lang = "lang-en"
+        if (request.session['lang'] != None):
+          url_lang = request.session['lang']
+        print url_lang
+        referer_url = ''
+        facebook_login = None        
+        try:
+          facebook_login = request.user.social_auth.get(provider='facebook')
+          try:
+            random_user_id = ''.join(random.choice('0123456789ABCDEF') for i in range(16))
+            print random_user_id
+            get_facebook_data(request, random_user_id)            
+            referer_url = "http://survey.tech-experience.at/index.php/943719/" + url_lang + "?accessFBdata1=" + random_user_id + "&newtest=Y"
+          except:
+            print "could not get facebook data"
+            traceback.print_exc()
+        except:
+          print "user is not authenticated"      
+        context = {'request': request, 'user': request.user, 'facebook_login': facebook_login, 'referer': referer_url, 'lang': url_lang}
+        context.update(csrf(request))        
+        return render_to_response('facebookPage.html', context)
+
+def facebook_disconnect(request):
+    if request.method == 'GET':
+        print "how to handle this"
+        facebook_login = None        
+        try:
+          facebook_login = request.user.social_auth.get(provider='facebook')
+        except:
+          print "user is not authenticated"      
+        context = {'request': request, 'user': request.user, 'facebook_login': facebook_login} 
+        context.update(csrf(request))
+        return render_to_response('facebookDisconnectPage.html', context)
 
 def survey_redirect(request):
     redirect_url = request.GET["next"]
     print redirect_url
     return HttpResponseRedirect(redirect_url)
 
-def get_facebook_data(request):
+def get_facebook_data(request, random_user_id):
     social_user = request.user.social_auth.filter(provider='facebook',).first()
 
 
@@ -122,7 +179,7 @@ def get_facebook_data(request):
 
     user_facebook = UserFacebookData.objects.filter(user=social_user)
     if not user_facebook:
-        new_user_data = UserFacebookData.objects.create(user = social_user, likes=likes, tagged_photos=tagged_photos, uploaded_photos=uploaded_photos, posts=posts)        
+        new_user_data = UserFacebookData.objects.create(user = social_user, likes=likes, tagged_photos=tagged_photos, uploaded_photos=uploaded_photos, posts=posts, random_id=random_user_id)        
     else:
         user_data = UserFacebookData.objects.get(user=social_user)
     return True

@@ -18,39 +18,110 @@
   });
 
 </script>
+{%if lang == "en" %}
+  
+  <div style="width: 80%; margin-left:auto; margin-right:auto;">
+    <h1> Informed Consent </h1>
 
- <!-- <h1>Welcome!</h1>  -->
-<div style="width: 80%; margin-left:auto; margin-right:auto;">
-  <h1> Informed Consent </h1>
+    <div id="new"> 
+      <p>
+        In this survey all personal data will be treated completely confidentially and anonymously.
+      </p>
+      <p>
+        Using an automated process the images you post on Facebook is extracted once. The app named Clarify then delivers keywords to each image. An excerpt of metadata to a photo can contain:
+      </p>
+      <ul>
+        <li>UserID: JohnDoel91891601eb0e4286</li>
+        <li>Photo: https://scontent.xx.fbcdn.net/v/t1.0-9/1462929_761379390555933_1377875398_n.jpg?oh=e376954f13b7d1f641d599bee34da190&oe=59CB16E9</li>
+        <li>Keyword: flower; flora; garden; nature;no person; summer; forest; color; park; tree; growth; beautiful; botanical; environment; floral.</li>
+      </ul>    
+      <p>
+        Other information from your Facebook profile will NOT be exported or processed!
+      </p>
+      <p>
+        The UserID with your name will be automatically replaced with a anonymous UserID. Your identity cannot be traced back at a later date using the data collected by us. The information collected in this study will appear in reports on this research project or in scientific contributions in the form of statistical evaluations or scenarios, without giving any personal information. Access to these data is exclusively granted to a selected group of people at AIT Austrian Institute of Technology GmbH and the Institute of Communication and Computer Systems (ICCS) in Athens, Greece.
+      </p>
+      <p>
+        To participate in the study, please confirm the following two statements:
+      </p>
 
-  <div id="new"> 
-    Term 1: We will collect all your data.
+    </div>
+
+    <div>
+      <label class="custom-control custom-checkbox">
+        <input type="checkbox" id="checkbox1" class="custom-control-input">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">I hereby give my consent that the AIT Austrian Institute of Technology GmbH, (hereinafter referred to as "AIT"), through its employees and vicarious agents, may store and utilize usage data from my Facebook profile in anonymous form in the course of the online survey in the research project OPTIMUM from October to November 2017. </span>
+      </label>
+    </div>
+    <div>
+      <label class="custom-control custom-checkbox">
+        <input type="checkbox" id="checkbox2" class="custom-control-input">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">I am of legal age and have full legal capacity at the time of issuing this declaration. </span>
+      </label>
+    </div>
+
+    <div type="button" id="next" class="btn btn btn-primary">Next</div>
+    <form action="/facebook_connect/" id="facebook_connect_form" method="post">
+      {% csrf_token %} 
+      <input type="hidden" name="lang" value="en">
+    </form>
+
   </div>
-  <div> 
-    Term 2: We will not do anything with your data.
+{% else %}
+  <div style="width: 80%; margin-left:auto; margin-right:auto;">
+    <h1> Informed Consent </h1>
+
+    <div id="new"> 
+      <p>
+        Alle personenbezogenen Angaben und Daten werden von uns vollkommen vertraulich und anonym behandelt.
+      </p>
+      <p>
+        Über ein automatisiertes Verfahren werden einmalig die in Facebook geposteten Bilder extrahiert. Mittels der App Clarify werden aus jedem Foto sog. Metadaten generiert, welcheausschließlich folgenden Infomation beinhalten:
+      </p>
+      <ul>
+        <li>UserID: MaxMustermannl91891601eb0e4286</li>
+        <li>Foto: https://scontent.xx.fbcdn.net/v/t1.0-9/1462929_761379390555933_1377875398_n.jpg?oh=e376954f13b7d1f641d599bee34da190&oe=59CB16E9</li>
+        <li>Schlüsselwort: blume;flora;blatt;garten;natur;keine person;sommer;wald;farbe; park;baum;growth;schön;botanisch;umwelt;floral.</li>
+      </ul>    
+      <p>
+        Andere Informationen aus Ihrem Facebook Profil werden NICHT exportiert oder verarbeitet!
+      </p>
+      <p>
+        Die UserID mit Ihrem Namen wird im Zuge des Exports gelöscht und stattdessen wird Ihnen automatisch eine anonyme UserID zugewiesen. Ihre Identität kann somit zu einem späteren Zeitpunkt keinesfalls über die von uns erhobenen Daten rückverfolgt werden. Die in dieser Studie gesammelten Informationen werden in Berichten zu diesem Forschungsprojekt oder in wissenschaftlichen Beiträgen in Form von statistischen Auswertungen oder Szenarien erscheinen, ohne persönliche Informationen zu nennen. Der Zugriff auf diese Daten ist ausschließlich dem ausgewählten Personenkreis beim Center for Technology Experience des AIT Austrian Institute of Technology GmbH in Wien (Österreich) und der Partnerinstitution Institute of Communication and Computer Systems (ICCS) in Athen (Griechenland) gewährt.
+      </p>
+      <p>
+        Um an der Studie teilnehmen zu können, bestätigen Sie bitte die zwei folgenden Aussagen:
+      </p>
+
+    </div>
+
+    <div>
+      <label class="custom-control custom-checkbox">
+        <input type="checkbox" id="checkbox1" class="custom-control-input">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">Hiermit gebe ich mein ausdrückliches Einverständnis, dass das AIT Austrian Institute of Technology GmbH, (nachfolgend „AIT“), durch dessen MitarbeiterInnen und Erfüllungsgehilfen in der Zeit von Oktober bis November 2017 im Rahmen der online-Umfrage im Forschungsprojekt OPTIMUM Nutzungsdaten aus meinem Facebook Profil in anonymisierter Form speichern und verwerten darf. </span>
+      </label>
+    </div>
+    <div>
+      <label class="custom-control custom-checkbox">
+        <input type="checkbox" id="checkbox2" class="custom-control-input">
+        <span class="custom-control-indicator"></span>
+        <span class="custom-control-description">Ich bin zum Zeitpunkt der Abgabe dieser Erklärung volljährig und voll geschäftsfähig.  </span>
+      </label>
+    </div>
+
+    <div type="button" id="next" class="btn btn btn-primary">Nächste</div>
+    <form action="/facebook_connect/" id="facebook_connect_form" method="post">
+      {% csrf_token %} 
+      <input type="hidden" name="lang" value="de">
+    </form>
+
   </div>
+{% endif  %}
 
-  <div>
-    <label class="custom-control custom-checkbox">
-      <input type="checkbox" id="checkbox1" class="custom-control-input">
-      <span class="custom-control-indicator"></span>
-      <span class="custom-control-description">I hereby consent to give you my data</span>
-    </label>
-  </div>
-  <div>
-    <label class="custom-control custom-checkbox">
-      <input type="checkbox" id="checkbox2" class="custom-control-input">
-      <span class="custom-control-indicator"></span>
-      <span class="custom-control-description">I hereby consent to process my data</span>
-    </label>
-  </div>
-
-  <div type="button" id="next" class="btn btn btn-primary">Next</div>
-  <form action="/facebook_connect/" id="facebook_connect_form" method="post">{% csrf_token %} </form>
-
-</div>
-
-<footer id="footer" class="footer" style="background-color:#000;border-radius: 4px;min-height: 250px;">
+<footer id="footer" class="footer" style="background-color:#000;border-radius: 4px;min-height: 200px; padding: 10px; margin-top: 10px;">
 
     <p class="center"><img src="/static/img/optimum_logo.png" class="tile-image text-center"></p>
     <div class="text-center">This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 636160-2.</div>

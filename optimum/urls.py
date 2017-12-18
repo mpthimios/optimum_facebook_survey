@@ -11,6 +11,7 @@ urlpatterns = [
     url(r'^$', views.index, name='home'),
     url(r'^survey/$', views.survey_redirect, name='survey_redirect'),
     url(r'^facebook_connect/$', views.facebook_connect, name='facebook_connect'),
+    url(r'^facebook_disconnect/$', views.facebook_disconnect, name='facebook_disconnect'),
     url(r'^oauth/', include('social_django.urls', namespace='social')),    
     #url(r'^logout/$', 'django.contrib.auth.views.logout', {'next_page': '/'}),
 
