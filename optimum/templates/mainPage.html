@@ -12,11 +12,7 @@
              $( "#facebook_connect_form" ).submit();
           }
           else{
-            {%if lang == "en" %}
-              alert("You have to provide your consent to participate in the study!");
-            {% else %}
-              alert("Sie müssen Ihre Zustimmung zur Teilnahme an der Studie geben!");
-            {% endif  %}
+            $('#myModal').modal('show');            
           }          
         });
   });
@@ -24,7 +20,7 @@
 </script>
 {%if lang == "en" %}
   
-  <div style="width: 80%; margin-left:auto; margin-right:auto;">
+  <div class="row" style="width: 80%; margin-left:auto; margin-right:auto;">
     <h1> Informed Consent </h1>
 
     <div id="new"> 
@@ -43,7 +39,7 @@
         Other information from your Facebook profile will NOT be exported or processed!
       </p>
       <p>
-        The UserID with your name will be automatically replaced with a anonymous UserID. Your identity cannot be traced back at a later date using the data collected by us. The information collected in this study will appear in reports on this research project or in scientific contributions in the form of statistical evaluations or scenarios, without giving any personal information. Access to these data is exclusively granted to a selected group of people at AIT Austrian Institute of Technology GmbH and the Institute of Communication and Computer Systems (ICCS) in Athens, Greece.
+        The UserID with your name will be automatically replaced with an anonymous UserID. Your identity cannot be traced back at a later date using the data collected by us. The information collected in this study will appear in reports on this research project or in scientific contributions in the form of statistical evaluations or scenarios, without giving any personal information. Access to these data is exclusively granted to a selected group of people at AIT Austrian Institute of Technology GmbH in Vienna (Austria) and the Institute of Communication and Computer Systems (ICCS) in Athens (Greece). 
       </p>
       <p>
         To participate in the study, please confirm the following two statements:
@@ -55,7 +51,7 @@
       <label class="custom-control custom-checkbox">
         <input type="checkbox" id="checkbox1" class="custom-control-input">
         <span class="custom-control-indicator"></span>
-        <span class="custom-control-description">I hereby give my consent that the AIT Austrian Institute of Technology GmbH, (hereinafter referred to as "AIT"), through its employees and vicarious agents, may store and utilize usage data from my Facebook profile in anonymous form in the course of the online survey in the research project OPTIMUM from October to November 2017. </span>
+        <span class="custom-control-description">I hereby give my consent that the AIT Austrian Institute of Technology GmbH, (hereinafter referred to as "AIT"), through its employees and vicarious agents, may store and utilize usage data from my Facebook profile in anonymous form in the course of the online survey in the research project OPTIMUM from December 2017 to February 2018. </span>
       </label>
     </div>
     <div>
@@ -75,14 +71,14 @@
   </div>
 {% else %}
   <div style="width: 80%; margin-left:auto; margin-right:auto;">
-    <h1> Informed Consent </h1>
+    <h1> Einverständnis </h1>
 
     <div id="new"> 
       <p>
         Alle personenbezogenen Angaben und Daten werden von uns vollkommen vertraulich und anonym behandelt.
       </p>
       <p>
-        Über ein automatisiertes Verfahren werden einmalig die in Facebook geposteten Bilder extrahiert. Mittels der App Clarify werden aus jedem Foto sog. Metadaten generiert, welcheausschließlich folgenden Infomation beinhalten:
+        Über ein automatisiertes Verfahren werden einmalig die in Facebook geposteten Bilder extrahiert. Mittels der App Clarify werden aus jedem Foto sog. Metadaten generiert, welche ausschließlich folgende Information beinhalten können:
       </p>
       <ul>
         <li>UserID: MaxMustermannl91891601eb0e4286</li>
@@ -105,14 +101,14 @@
       <label class="custom-control custom-checkbox">
         <input type="checkbox" id="checkbox1" class="custom-control-input">
         <span class="custom-control-indicator"></span>
-        <span class="custom-control-description">Hiermit gebe ich mein ausdrückliches Einverständnis, dass das AIT Austrian Institute of Technology GmbH, (nachfolgend „AIT“), durch dessen MitarbeiterInnen und Erfüllungsgehilfen in der Zeit von Oktober bis November 2017 im Rahmen der online-Umfrage im Forschungsprojekt OPTIMUM Nutzungsdaten aus meinem Facebook Profil in anonymisierter Form speichern und verwerten darf. </span>
+        <span class="custom-control-description">Hiermit gebe ich mein ausdrückliches Einverständnis, dass das AIT Austrian Institute of Technology GmbH, (nachfolgend „AIT“), durch dessen MitarbeiterInnen und Erfüllungsgehilfen in der Zeit von Dezember 2017 bis Februar 2018 im Rahmen der Online-Umfrage im Forschungsprojekt OPTIMUM Nutzungsdaten aus meinem Facebook Profil in anonymisierter Form speichern und verwerten darf. </span>
       </label>
     </div>
     <div>
       <label class="custom-control custom-checkbox">
         <input type="checkbox" id="checkbox2" class="custom-control-input">
         <span class="custom-control-indicator"></span>
-        <span class="custom-control-description">Ich bin zum Zeitpunkt der Abgabe dieser Erklärung volljährig und voll geschäftsfähig.  </span>
+        <span class="custom-control-description">Ich bin zum Zeitpunkt der Abgabe dieser Erklärung volljährig und voll geschäftsfähig. </span>
       </label>
     </div>
 
@@ -125,11 +121,36 @@
   </div>
 {% endif  %}
 
-<footer id="footer" class="footer" style="background-color:#000;border-radius: 4px;min-height: 200px; padding: 10px; margin-top: 10px;">
+<!-- Modal -->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true" style="position: fixed; top: 10px;">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">        
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        {%if lang == "en" %}
+          <h4>You have to provide your consent to participate in the study!</h4>
+          
+        {% else %}
+          <h4>Sie müssen Ihre Zustimmung zur Teilnahme an der Studie geben!</h4>
+        {% endif  %}
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" data-dismiss="modal">OK!</button>        
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer id="footer" class="row" style="border-radius: 4px;min-height: 200px; padding: 10px; margin-top: 10px;">
 
     <p class="center"><img src="/static/img/optimum_logo.png" class="tile-image text-center"></p>
     <div class="text-center">This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 636160-2.</div>
     <div class="text-center">Copyright © 2017. All rights reserved.</div>
 </footer>
+
 
 {% endblock %}

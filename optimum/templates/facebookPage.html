@@ -2,58 +2,60 @@
 
 {% block content %}
  <!-- <h1>Welcome!</h1>  -->
-{% if facebook_login != None %}
-<div class="jumbotron" style="width:100%;float:left;padding:10px;margin-left:5px;margin-right:5px;margin-top:40px;text-align: center;">
-  <h2>Thank you for connecting to Optimum {{ user.username }} </h2>
-      <div class="countdown">
-        You will be redirected to the Optimum survey.
+<div class="row">
+    {% if facebook_login != None %}
+    <div class="jumbotron" style="width:100%;float:left;padding:10px;margin-left:5px;margin-right:5px;margin-top:40px;text-align: center;">
+      <h2>Thank you for connecting to Optimum {{ user.username }} </h2>
+          <div class="countdown">
+            You will be redirected to the Optimum survey.
 
-        <span id="clock"></span>
-        <br/>        
-      </div>
-  <h2>Danke für die Verbindung mit Optimum {{ user.username }} </h2>
-      <div class="countdown">
-        Sie werden zur Optimum-Umfrage weitergeleitet.
+            <span id="clock"></span>
+            <br/>        
+          </div>
+      <h2>Danke für die Verbindung mit Optimum {{ user.username }} </h2>
+          <div class="countdown">
+            Sie werden zur Optimum-Umfrage weitergeleitet.
 
-        <span id="clock"></span>
-        <br/>        
-      </div>
-      <script>        
-          window.location.href = "/survey/?next={{referer}}";         
-        </script>    
-  <h2>You may disconnect anytime by clicking the button below </h3>
-  <form method="post" action="{% url 'social:disconnect' 'facebook' %}">
-    {% csrf_token %}
-    <button type="submit"><img src="/static/img/disconnect.png" style="width:50px;margin:5px;"></button>
-  </form>
+            <span id="clock"></span>
+            <br/>        
+          </div>
+          <script>        
+              window.location.href = "/survey/?next={{referer}}";         
+            </script>    
+      <h2>You may disconnect anytime by clicking the button below </h3>
+      <form method="post" action="{% url 'social:disconnect' 'facebook' %}">
+        {% csrf_token %}
+        <button type="submit"><img src="/static/img/disconnect.png" style="width:50px;margin:5px;"></button>
+      </form>
+
+    </div>
+    {% else %}
+      {%if lang == "lang-en" %}
+        <div class="jumbotron" style="width:100%;float:left;padding:10px;margin-left:5px;margin-right:5px;margin-top:40px;text-align: center;">
+          <p>In order to answer our research questions, we would like to access the following data once only:</p>
+          <ul><li>"Photos you uploaded in Facebook (no access to photos uploaded by friends)"</li></ul>
+          <p>The data is exported once. Once you've approved your access, you'll be automatically redirected to a survey.</p>
+          <p>Please follow this link to provide us access to your Facebook account:</p>
+        </p>
+          <p><a class="" style="width:30%"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><img src="/static/img/facebook_connect_button.png" style="width:400px;margin:5px;"></a></p>
+        </div>
+      {%else%}
+        <div class="jumbotron" style="width:100%;float:left;padding:10px;margin-left:5px;margin-right:5px;margin-top:40px;text-align: center;">
+          <p>Um unsere Forschungsfragen zu beantworten, würden wir gern auf folgende Daten einmalig zugreifen:</p>
+          <ul><li>"Fotos, die Sie in FB hochgeladen haben (kein Zugriff auf Fotos, die von Freunden hochgeladen wurden)"</li></ul>
+          <p>Die Daten werden einmalig exportiert. Wenn sie den Zugang freigegeben haben, werden Sie automatisch zur Umfrage zurückgeleitet.</p>
+          <p>Folgen Sie nun bitte diesem Link, um Ihren Facebook Zugang für uns freizuschalten:</p>
+        </p>
+          <p><a class="" style="width:30%"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><img src="/static/img/facebook_connect_button.png" style="width:400px;margin:5px;"></a></p>
+        </div>
+      {% endif  %}  
+
+    {% endif  %}
 
 </div>
-{% else %}
-  {%if lang == "lang-en" %}
-    <div class="jumbotron" style="width:100%;float:left;padding:10px;margin-left:5px;margin-right:5px;margin-top:40px;text-align: center;">
-      <p>In order to answer our research questions, we would like to access the following data once only:</p>
-      <ul><li>"Photos you uploaded in Facebook (no access to photos uploaded by friends)"</li></ul>
-      <p>The data is exported once. Once you've approved your access, you'll be automatically redirected to a survey.</p>
-      <p>Please follow this link to provide us access to your Facebook account:</p>
-    </p>
-      <p><a class="" style="width:30%"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><img src="/static/img/facebook_connect_button.png" style="width:400px;margin:5px;"></a></p>
-    </div>
-  {%else%}
-    <div class="jumbotron" style="width:100%;float:left;padding:10px;margin-left:5px;margin-right:5px;margin-top:40px;text-align: center;">
-      <p>Um unsere Forschungsfragen zu beantworten, würden wir gern auf folgende Daten einmalig zugreifen:</p>
-      <ul><li>"Fotos, die Sie in FB hochgeladen haben (kein Zugriff auf Fotos, die von Freunden hochgeladen wurden)"</li></ul>
-      <p>Die Daten werden einmalig exportiert. Wenn sie den Zugang freigegeben haben, werden Sie automatisch zur Umfrage zurückgeleitet.</p>
-      <p>Folgen Sie nun bitte diesem Link, um Ihren Facebook Zugang für uns freizuschalten:</p>
-    </p>
-      <p><a class="" style="width:30%"  href="{% url 'social:begin' 'facebook' %}?next={{ request.path }}"><img src="/static/img/facebook_connect_button.png" style="width:400px;margin:5px;"></a></p>
-    </div>
-  {% endif  %}  
 
-{% endif  %}
 
-<div class="push"></div>
-
-<footer id="footer" class="footer" style="background-color:#000;border-radius: 4px;min-height: 250px; position:fixed; padding:10px;">
+<footer id="footer" class="row" style="border-radius: 4px;min-height: 250px; padding:10px;padding-top:50px;">
 
     <p class="center"><img src="/static/img/optimum_logo.png" class="tile-image text-center"></p>
     <div class="text-center">This project has received funding from the European Union's Horizon 2020 research and innovation programme under grant agreement No 636160-2.</div>
