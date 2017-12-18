@@ -12,7 +12,11 @@
              $( "#facebook_connect_form" ).submit();
           }
           else{
-            alert("You have to provide your consent to participate in the study!");
+            {%if lang == "en" %}
+              alert("You have to provide your consent to participate in the study!");
+            {% else %}
+              alert("Sie müssen Ihre Zustimmung zur Teilnahme an der Studie geben!");
+            {% endif  %}
           }          
         });
   });
