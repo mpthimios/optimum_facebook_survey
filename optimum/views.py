@@ -85,7 +85,7 @@ def facebook_connect(request):
             random_user_id = ''.join(random.choice('0123456789ABCDEF') for i in range(16))
             print random_user_id
             get_facebook_data(request, random_user_id)            
-            referer_url = "http://survey.tech-experience.at/index.php/943719/" + url_lang + "?accessFBdata1=" + random_user_id
+            referer_url = "http://survey.tech-experience.at/index.php/432741/" + url_lang + "?accessFBdata1=" + random_user_id
           except:
             print "could not get facebook data"
             traceback.print_exc()
@@ -108,7 +108,7 @@ def facebook_connect(request):
             random_user_id = ''.join(random.choice('0123456789ABCDEF') for i in range(16))
             print random_user_id
             get_facebook_data(request, random_user_id)            
-            referer_url = "http://survey.tech-experience.at/index.php/943719/" + url_lang + "?accessFBdata1=" + random_user_id
+            referer_url = "http://survey.tech-experience.at/index.php/432741/" + url_lang + "?accessFBdata1=" + random_user_id
           except:
             print "could not get facebook data"
             traceback.print_exc()
