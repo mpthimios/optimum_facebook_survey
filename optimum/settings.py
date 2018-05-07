@@ -150,8 +150,7 @@ SESSION_SERIALIZER='django.contrib.sessions.serializers.PickleSerializer'
 #                                 'user_actions.books', 'user_actions.fitness','user_actions.music','user_actions.news',
 #                                'user_actions.video']
 
-SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_likes', 'public_profile', 'user_about_me',
-                                 'user_photos', 'user_posts']
+SOCIAL_AUTH_FACEBOOK_SCOPE = ['email', 'user_likes', 'public_profile', 'user_photos', 'user_posts']
 
 SOCIAL_AUTH_FACEBOOK_PROFILE_EXTRA_PARAMS = {
   'locale': 'ru_RU',
